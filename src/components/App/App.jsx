@@ -1,17 +1,17 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Header from '../Header/index';
-import Main from '../Main/index';
+import { useState } from 'react';
 
 const App = () => {
+  // eslint-disable-next-line no-unused-vars
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
   return (
     <div className='page'>
-      <Header></Header>
-      <Routes>
-        <Route path='/' element={<Main></Main>}></Route>
-      </Routes>
+      <Header isLoggedIn={isLoggedIn} />
     </div>
   );
-}
+};
 
 export default App;
