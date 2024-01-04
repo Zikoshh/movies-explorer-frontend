@@ -10,7 +10,6 @@ import Login from '../Login/index';
 import { useState } from 'react';
 
 const App = () => {
-  // eslint-disable-next-line no-unused-vars
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
