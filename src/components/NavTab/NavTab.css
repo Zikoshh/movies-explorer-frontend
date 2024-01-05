@@ -1,12 +1,21 @@
 .navtab {
   display: grid;
-  grid-template-columns: repeat(3, auto);
+  grid-template-columns: repeat(3, 96px);
+  grid-template-rows: 36px;
   column-gap: 10px;
-  margin-bottom: 40px;
+  text-align: center;
+  box-sizing: border-box;
+  margin-bottom: 30px;
+}
+
+.navtab_techs {
+  grid-template-columns: repeat(7, 90px);
+  grid-template-rows: 60px;
+  margin-bottom: 0;
 }
 
 .navtab__link {
-  padding: 10px 17px;
+  padding-top: 10px;
   border-radius: 10px;
   font-size: 12px;
   font-weight: 500;
@@ -16,19 +25,53 @@
   background-color: #303030;
 }
 
+.navtab__link_techs {
+  padding-top: 21px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  letter-spacing: -0.56px;
+}
+
 .navtab__link:hover {
   opacity: 0.7;
 }
 
+@media screen and (max-width: 768px) {
+  .navtab_techs {
+    grid-template-columns: repeat(7, 84px);
+    grid-template-rows: 57px;
+  }
+
+  .navtab__link_techs {
+    font-size: 12px;
+    letter-spacing: -0.48px;
+  }
+}
+
 @media screen and (max-width: 320px) {
   .navtab {
+    grid-template-columns: repeat(3, 82px);
+    grid-template-rows: 26px;
     column-gap: 6px;
-    margin-bottom: 22px;
+    margin-bottom: 17px;
   }
 
   .navtab__link {
-    padding: 5px 15.5px;
+    padding-top: 5px;
     border-radius: 6px;
     font-size: 10px;
+  }
+
+  .navtab_techs {
+    grid-template-columns: repeat(2, 84px);
+    grid-template-rows: repeat(4, 57px);
+    row-gap: 10px;
+  }
+
+  .navtab__link_techs {
+    padding-top: 21px;
+    font-size: 12px;
+    border-radius: 10px;
   }
 }
