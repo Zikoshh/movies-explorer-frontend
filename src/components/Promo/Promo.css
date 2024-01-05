@@ -1,6 +1,5 @@
 .promo {
-  max-width: 1200px;
-  width: 100%;
+  width: 93.75%;
   background-color: #272727;
   height: 493px;
   display: flex;
@@ -11,7 +10,7 @@
 }
 
 .promo__title {
-  max-width: 650px;
+  width: 54.17%;
   font-size: 50px;
   font-style: normal;
   font-weight: 400;
@@ -23,12 +22,12 @@
 
 @media screen and (max-width: 768px) {
   .promo {
-    max-width: 728px;
+    width: 94.79%;
     height: 834px;
   }
 
   .promo__title {
-    max-width: 520px;
+    width: 73%;
     font-size: 40px;
     line-height: 52px;
     letter-spacing: -1.6px;
@@ -38,7 +37,7 @@
 
 @media screen and (max-width: 320px) {
   .promo {
-    max-width: 292px;
+    width: 91.25%;
     height: 586px;
   }
 
