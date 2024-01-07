@@ -1,6 +1,7 @@
 import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import Header from '../Header/index';
+import Footer from '../Footer/index';
 import Main from '../Main/index';
 import Movies from '../Movies/index';
 import SavedMovies from '../SavedMovies/index';
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/signin' element={<Login />} />
         <Route path='/signup' element={<Register />} />
       </Routes>
+      <Footer />
     </div>
   );
 };
