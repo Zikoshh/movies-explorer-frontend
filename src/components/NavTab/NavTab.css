@@ -1,4 +1,5 @@
 .navtab {
+  width: 100%;
   display: grid;
   grid-template-columns: repeat(3, 96px);
   grid-template-rows: 36px;
@@ -6,6 +7,7 @@
   text-align: center;
   box-sizing: border-box;
   margin-bottom: 30px;
+  justify-content: center;
 }
 
 .navtab_techs {
@@ -39,8 +41,9 @@
 
 @media screen and (max-width: 768px) {
   .navtab_techs {
-    grid-template-columns: repeat(7, 84px);
+    grid-template-columns: repeat(7, 10.94%);
     grid-template-rows: 57px;
+    column-gap: 0.78%;
   }
 
   .navtab__link_techs {
@@ -51,9 +54,9 @@
 
 @media screen and (max-width: 320px) {
   .navtab {
-    grid-template-columns: repeat(3, 82px);
+    grid-template-columns: repeat(3, 28.08%);
     grid-template-rows: 26px;
-    column-gap: 6px;
+    column-gap: 2.05%;
     margin-bottom: 17px;
   }
 
@@ -64,7 +67,7 @@
   }
 
   .navtab_techs {
-    grid-template-columns: repeat(2, 84px);
+    grid-template-columns: repeat(2, 26.25%);
     grid-template-rows: repeat(4, 57px);
     row-gap: 10px;
   }

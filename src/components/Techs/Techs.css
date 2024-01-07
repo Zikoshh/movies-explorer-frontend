@@ -1,11 +1,12 @@
 .techs {
   width: 100%;
   box-sizing: border-box;
-  height: 625px;
+  min-height: 625px;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  background-color: #272727;
 }
 
 .techs__title {
@@ -40,7 +41,7 @@
 
 @media screen and (max-width: 768px) {
   .techs {
-    height: 567px;
+    min-height: 567px;
   }
 
   .techs__title {
@@ -62,7 +63,7 @@
 
 @media screen and (max-width: 320px) {
   .techs {
-    height: 651px;
+    min-height: 651px;
   }
 
   .techs__title {

@@ -1,7 +1,7 @@
 .promo {
   width: 93.75%;
   background-color: #272727;
-  height: 493px;
+  min-height: 493px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,7 +23,7 @@
 @media screen and (max-width: 768px) {
   .promo {
     width: 94.79%;
-    height: 834px;
+    min-height: 834px;
   }
 
   .promo__title {
@@ -38,7 +38,7 @@
 @media screen and (max-width: 320px) {
   .promo {
     width: 91.25%;
-    height: 586px;
+    min-height: 586px;
   }
 
   .promo__title {
