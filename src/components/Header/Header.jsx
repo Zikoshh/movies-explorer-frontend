@@ -1,9 +1,8 @@
-import logo from '../../assets/images/logo.svg';
 import { NavLink } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './Header.css';
 
-const Header = ({ isLoggedIn }) => {
+const Header = ({ isLoggedIn, isTryingToAuth }) => {
   const [isNavPopupOpen, setIsNavPopupOpen] = useState(false);
   const [windowSize, setWindowSize] = useState(getWindowSize());
 
@@ -28,11 +27,11 @@ const Header = ({ isLoggedIn }) => {
   };
 
   return (
-    <div className='header'>
-      <NavLink to='/'>
-        <div className='header__logo' src={logo} alt='logo' />
-      </NavLink>
-      {isLoggedIn ? (
+    <div className={`header ${isTryingToAuth && 'header_auth'}`}>
+      <NavLink className={`header__logo ${isTryingToAuth && 'header__logo_auth'}`} to='/' />
+      {isTryingToAuth ? (
+        ''
+      ) : isLoggedIn ? (
         windowSize.innerWidth >= 768 ? (
           <div>
             <NavLink
@@ -77,7 +76,9 @@ const Header = ({ isLoggedIn }) => {
           </NavLink>
         </div>
       )}
-      {isLoggedIn ? (
+      {isTryingToAuth ? (
+        ''
+      ) : isLoggedIn ? (
         windowSize.innerWidth >= 768 ? (
           <NavLink
             to='/profile'

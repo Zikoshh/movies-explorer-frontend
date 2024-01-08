@@ -1,8 +1,8 @@
 import './Footer.css';
 
-const Footer = () => {
+const Footer = ({ isTryingToAuth }) => {
   return (
-    <footer className='footer'>
+    <footer className={`footer ${isTryingToAuth ? 'footer_hidden' : ''}`}>
       <h5 className='footer__title'>
         Учебный проект Яндекс.Практикум х BeatFilm.
       </h5>
