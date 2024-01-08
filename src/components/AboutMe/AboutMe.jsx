@@ -1,4 +1,5 @@
 import './AboutMe.css';
+import Portfolio from '../Portfolio/index';
 
 const AboutMe = () => {
   return (
@@ -17,31 +18,6 @@ const AboutMe = () => {
         <div className='about-me__image'></div>
         <a className='about-me__social-link' href='da'>
           Github
-        </a>
-      </div>
-      <a href='da' className='about-me__portfolio'>Портфолио</a>
-      <div className='about-me__project'>
-        <a className='about-me__project-link' href='da'>
-          Статичный сайт
-        </a>
-        <a href='da'>
-          <div className='about-me__arrow-link'></div>
-        </a>
-      </div>
-      <div className='about-me__project'>
-        <a className='about-me__project-link' href='da'>
-          Адаптивный сайт
-        </a>
-        <a href='da'>
-          <div className='about-me__arrow-link'></div>
-        </a>
-      </div>
-      <div className='about-me__project'>
-        <a className='about-me__project-link' href='da'>
-          Одностраничное приложение
-        </a>
-        <a href='da'>
-          <div className='about-me__arrow-link'></div>
         </a>
       </div>
     </section>
