@@ -7,6 +7,7 @@ import Movies from '../Movies/index';
 import SavedMovies from '../SavedMovies/index';
 import Profile from '../Profile/index';
 import Form from '../Form/index';
+import NotFound from '../NotFound/index';
 import { useEffect, useState } from 'react';
 
 const App = () => {
@@ -27,6 +28,8 @@ const App = () => {
     if (location.pathname === '/signup') {
       setIsTryingToAuth(true);
     }
+
+    
   }, [location]);
 
   return (
@@ -49,7 +52,9 @@ const App = () => {
               routLink='/signup'
               isSignInForm={true}
             >
-              <label className='form__label' htmlFor='signin-email'>E-mail</label>
+              <label className='form__label' htmlFor='signin-email'>
+                E-mail
+              </label>
               <input
                 id='signin-email'
                 className='form__input'
@@ -59,7 +64,9 @@ const App = () => {
                 onChange={(e) => setInputEmailSignIn(e.target.value)}
               />
               <p className='form__error'>Что-то пошло не так...</p>
-              <label className='form__label' htmlFor='signin-password'>Пароль</label>
+              <label className='form__label' htmlFor='signin-password'>
+                Пароль
+              </label>
               <input
                 id='signin-password'
                 className='form__input'
@@ -84,7 +91,9 @@ const App = () => {
               routLink='/signin'
               isSignInForm={false}
             >
-              <label className='form__label' htmlFor='signup-name'>Имя</label>
+              <label className='form__label' htmlFor='signup-name'>
+                Имя
+              </label>
               <input
                 id='signup-name'
                 className='form__input'
@@ -94,7 +103,9 @@ const App = () => {
                 onChange={(e) => setInputNameSignUp(e.target.value)}
               />
               <p className='form__error'>Что-то пошло не так...</p>
-              <label className='form__label' htmlFor='signup-email'>E-mail</label>
+              <label className='form__label' htmlFor='signup-email'>
+                E-mail
+              </label>
               <input
                 id='signup-email'
                 className='form__input'
@@ -104,7 +115,9 @@ const App = () => {
                 onChange={(e) => setInputEmailSignUp(e.target.value)}
               />
               <p className='form__error'>Что-то пошло не так...</p>
-              <label className='form__label' htmlFor='signup-password'>Пароль</label>
+              <label className='form__label' htmlFor='signup-password'>
+                Пароль
+              </label>
               <input
                 id='signup-password'
                 className='form__input'
@@ -117,8 +130,9 @@ const App = () => {
             </Form>
           }
         />
+        <Route path='*' element={<NotFound />} />
       </Routes>
-      <Footer isTryingToAuth={isTryingToAuth} />
+      <Footer />
     </div>
   );
 };
