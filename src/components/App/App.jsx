@@ -32,6 +32,10 @@ const App = () => {
     
   }, [location]);
 
+  const handleSignOut = () => {
+    setIsLoggedIn(false);
+  }
+
   return (
     <div className='page'>
       <Header isLoggedIn={isLoggedIn} isTryingToAuth={isTryingToAuth} />
@@ -39,7 +43,7 @@ const App = () => {
         <Route path='/' element={<Main />} />a
         <Route path='/movies' element={<Movies />} />
         <Route path='/saved-movies' element={<SavedMovies />} />
-        <Route path='/profile' element={<Profile />} />
+        <Route path='/profile' element={<Profile onSignOut={handleSignOut} />} />
         <Route
           path='/signin'
           element={

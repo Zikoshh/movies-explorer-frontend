@@ -1,0 +1,167 @@
+.profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  margin-top: 74px;
+}
+
+.profile__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 410px;
+}
+
+.profile__title {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+  line-height: normal;
+  width: 100%;
+  text-align: center;
+}
+
+.profile__label {
+  font-size: 11px;
+  font-weight: 500;
+  line-height: normal;
+  border-bottom: 1px solid rgba(66, 66, 66, 1);
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  margin-top: 17px;
+}
+
+.profile__label:nth-child(3) {
+  border: none;
+  padding-bottom: 0;
+}
+
+.profile__label:nth-child(2) {
+  margin-top: 123px;
+}
+
+.profile__input {
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+  background-color: #202020;
+  padding: 0;
+  outline: none;
+  color: white;
+  text-align: end;
+}
+
+.profile__container {
+  width: 100%;
+  text-align: center;
+  position: relative;
+}
+
+.profile__edit-button {
+  font-size: 13px;
+  font-weight: 400;
+  line-height: normal;
+  border: none;
+  background-color: #202020;
+  color: white;
+  padding: 0;
+  width: 100%;
+  margin: 220px 0 16px 0;
+  cursor: pointer;
+}
+
+.profile__edit-button:hover {
+  opacity: 0.8;
+}
+
+.profile__sign-out {
+  color: #ee3465;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: normal;
+  width: 100%;
+}
+
+.profile__sign-out:hover {
+  opacity: 0.8;
+}
+
+.profile__error {
+  margin: 0;
+  color: #ee3465;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  bottom: 65px;
+  width: 100%;
+}
+
+.profile__submit-button {
+  width: 100%;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: normal;
+  border: none;
+  background-color: #3456f3;
+  color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  padding: 13px 0 15px 0;
+  margin-top: 223px;
+}
+
+@media screen and (max-width: 768px) {
+  .profile {
+    margin-top: 236px;
+  }
+
+  .profile__form {
+    width: 53.39%;
+  }
+
+  .profile__label:nth-child(2) {
+    margin-top: 96px;
+  }
+
+  .profile__edit-button {
+    margin-top: 210px;
+  }
+
+  .profile__submit-button {
+    margin-top: 213px;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .profile {
+    margin-top: 70px;
+  }
+
+  .profile__form {
+    width: 81.25%;
+  }
+
+  .profile__label:nth-child(2) {
+    margin-top: 80px;
+  }
+
+  .profile__edit-button {
+    font-size: 12px;
+    margin-top: 379px;
+  }
+
+  .profile__sign-out {
+    font-size: 12px;
+  }
+
+  .profile__submit-button {
+    margin-top: 382px;
+  }
+}
