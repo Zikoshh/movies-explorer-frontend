@@ -1,0 +1,124 @@
+.search-form {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-top: 80px;
+  padding-bottom: 40px;
+  border-bottom: 1px solid rgba(66, 66, 66, 1);
+}
+
+.search-form__container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
+}
+
+.search-form__input {
+  color: #8B8B8B;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  background-color: #2F2F2F;
+  border-radius: 8px;
+  padding: 16px 0 16px 20px;
+  border: none;
+  outline: none;
+  width: 95.26%;
+}
+
+.search-form__submit-button {
+  background-image: url('../../assets/images/search-button.svg');
+  height: 44px;
+  width: 44px;
+  padding: 0;
+  border: none;
+  background-color: #202020;
+  cursor: pointer;
+}
+
+.search-form__label {
+  display: flex;
+}
+
+.search-form__label-text {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  margin: 0;
+  display: inline-block;
+  position: relative;
+  padding-left: 46px;
+  cursor: pointer;
+}
+
+.search-form__label-text::before {
+  content: '';
+  width: 34px;
+  height: 14px;
+  background-color: rgba(52, 52, 52, 1);
+  border-radius: 10px;
+  position: absolute;
+  left: 0;
+  top: 2px;
+  transition: background-color .2s;
+}
+
+.search-form__label-text::after {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 10px;
+  background-color: rgba(160, 160, 160, 1);
+  position: absolute;
+  left: 2px;
+  top: 4px;
+  transition: background-color .2s, left .2s;
+}
+
+.search-form__checkbox {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  left: 0;
+  top: 0;
+}
+
+.search-form__checkbox:checked + .search-form__label-text::before {
+  background-color: #3DDC84;
+}
+
+.search-form__checkbox:checked + .search-form__label-text::after {
+  background-color: white;
+  left: 22px;
+}
+
+
+@media screen and (max-width: 768px) {
+  .search-form__container {
+    margin-bottom: 41px;
+  }
+
+  .search-form__input {
+    width: 92.37%;
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .search-form__container {
+    margin-bottom: 47px;
+  }
+
+  .search-form__input {
+    width: 81.51%;
+  }
+
+  .search-form__label-text {
+    font-size: 11px;
+    padding-left: 47px;
+  }
+}
