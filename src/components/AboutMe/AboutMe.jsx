@@ -1,9 +1,8 @@
 import './AboutMe.css';
-import Portfolio from '../Portfolio/index';
 
 const AboutMe = () => {
   return (
-    <section className='about-me'>
+    <section id='about-me' className='about-me'>
       <h3 className='about-me__title'>Студент</h3>
       <div className='about-me__info'>
         <h2 className='about-me__name'>Виталий</h2>

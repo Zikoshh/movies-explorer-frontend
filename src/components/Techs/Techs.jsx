@@ -3,7 +3,7 @@ import NavTab from '../NavTab/index';
 
 const Techs = () => {
   return (
-    <section className='techs'>
+    <section id='techs' className='techs'>
       <h3 className='techs__title'>Технологии</h3>
       <h2 className='techs__desc'>7 технологий</h2>
       <p className='techs__subtitle'>

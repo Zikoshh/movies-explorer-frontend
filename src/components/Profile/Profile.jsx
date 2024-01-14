@@ -25,6 +25,7 @@ const Profile = ({ onSignOut }) => {
         <label className='profile__label'>
           Имя
           <input
+            name='name'
             ref={inputNameRef}
             className='profile__input'
             type='text'
@@ -36,6 +37,7 @@ const Profile = ({ onSignOut }) => {
         <label className='profile__label'>
           Почта
           <input
+            name='email'
             ref={inputEmailRef}
             className='profile__input'
             type='text'
@@ -45,8 +47,10 @@ const Profile = ({ onSignOut }) => {
           />
         </label>
         {isEditButtonClicked ? (
-          <div className='profile__container'> 
-            <p className='profile__error'>При обновлении профиля произошла ошибка.</p>
+          <div className='profile__container'>
+            <p className='profile__error'>
+              При обновлении профиля произошла ошибка.
+            </p>
             <button className='profile__submit-button' type='submit'>
               Сохранить
             </button>
