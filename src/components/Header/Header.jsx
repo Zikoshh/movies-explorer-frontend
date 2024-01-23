@@ -32,7 +32,7 @@ const Header = ({ isLoggedIn, isTryingToAuth }) => {
       {isTryingToAuth ? (
         ''
       ) : isLoggedIn ? (
-        windowSize.innerWidth >= 768 ? (
+        windowSize.innerWidth > 768 ? (
           <div>
             <NavLink
               to='/movies'
@@ -79,7 +79,7 @@ const Header = ({ isLoggedIn, isTryingToAuth }) => {
       {isTryingToAuth ? (
         ''
       ) : isLoggedIn ? (
-        windowSize.innerWidth >= 768 ? (
+        windowSize.innerWidth > 768 ? (
           <NavLink
             to='/profile'
             className={({ isActive }) =>
