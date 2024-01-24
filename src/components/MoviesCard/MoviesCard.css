@@ -32,7 +32,7 @@
   padding: 3px 4px;
 }
 
-.card__save-button {
+.card__save-btn {
   opacity: 0;
   position: absolute;
   top: 14px;
@@ -49,12 +49,16 @@
   transition: 0.1s;
 }
 
-.card__save-button_visible {
+.card__save-btn:hover {
+  opacity: 0.8;
+}
+
+.card__save-btn_visible {
   opacity: 1;
   transition: 0.1s;
 }
 
-.card__saved-button {
+.card__saved-btn {
   background: none;
   background-image: url('../../assets/images/saved-button.svg');
   position: absolute;
@@ -67,7 +71,11 @@
   transition: background-image 0.2s;
 }
 
-.card__saved-button_remove {
+.card__saved-btn:hover {
+  opacity: 0.8;
+}
+
+.card__saved-btn_remove {
   background-image: url('../../assets/images/remove-button.svg');
   transition: background-image 0.2s;
 }
@@ -87,12 +95,12 @@
     font-size: 12px;
   }
 
-  .card__save-button {
+  .card__save-btn {
     top: 10px;
     right: 10px;
   }
 
-  .card__saved-button {
+  .card__saved-btn {
     top: 10px;
     right: 10px;
   }

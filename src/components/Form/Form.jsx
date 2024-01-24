@@ -14,7 +14,7 @@ const Form = ({
     <form className='form' onSubmit={handleSubmit}>
       <h3 className='form__title'>{titleText}</h3>
       {children}
-      <button className={`form__submit-button ${isSignInForm && 'form__submit-button_sign-in'}`} type='submit'>{submitButtonText}</button>
+      <button className={`form__submit-btn ${isSignInForm && 'form__submit-btn_sign-in'}`} type='submit'>{submitButtonText}</button>
       <p className='form__yet'>
         {yetText}
         <a className='form__link' href={routLink}>

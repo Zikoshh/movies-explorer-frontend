@@ -1,5 +1,5 @@
 import './App.css';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Main from '../Main/index';
@@ -8,7 +8,7 @@ import SavedMovies from '../SavedMovies/index';
 import Profile from '../Profile/index';
 import Form from '../Form/index';
 import NotFound from '../NotFound/index';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 const App = () => {
   const [inputEmailSignIn, setInputEmailSignIn] = useState('');
@@ -16,21 +16,7 @@ const App = () => {
   const [inputNameSignUp, setInputNameSignUp] = useState('');
   const [inputEmailSignUp, setInputEmailSignUp] = useState('');
   const [inputPasswordSignUp, setInputPasswordSignUp] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [isTryingToAuth, setIsTryingToAuth] = useState(false);
-  const location = useLocation();
-
-  useEffect(() => {
-    if (location.pathname === '/signin') {
-      setIsTryingToAuth(true);
-    }
-
-    if (location.pathname === '/signup') {
-      setIsTryingToAuth(true);
-    }
-
-    
-  }, [location]);
+  const [isLoggedIn, setIsLoggedIn] = useState(true);
 
   const handleSignOut = () => {
     setIsLoggedIn(false);
@@ -38,7 +24,7 @@ const App = () => {
 
   return (
     <div className='page'>
-      <Header isLoggedIn={isLoggedIn} isTryingToAuth={isTryingToAuth} />
+      <Header isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path='/' element={<Main />} />a
         <Route path='/movies' element={<Movies />} />

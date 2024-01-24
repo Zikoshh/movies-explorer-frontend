@@ -39,12 +39,20 @@
   color: white;
 }
 
+.portfolio__project-link:hover {
+  opacity: 0.7;
+}
+
 .portfolio__arrow-link {
   background-image: url('../../assets/images/arrow-link.svg');
   width: 29px;
   height: 60px;
   background-position: center;
   background-repeat: no-repeat;
+}
+
+.portfolio__arrow-link:hover {
+  opacity: 0.7;
 }
 
 @media screen and (max-width: 768px) {

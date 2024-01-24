@@ -7,19 +7,19 @@ const MoviesCard = ({ isMovieSaved }) => {
   const savedButton = useRef();
 
   const showSaveButton = () => {
-    saveButton.current.classList.add('card__save-button_visible');
+    saveButton.current.classList.add('card__save-btn_visible');
   };
 
   const hideSaveButton = () => {
-    saveButton.current.classList.remove('card__save-button_visible');
+    saveButton.current.classList.remove('card__save-btn_visible');
   };
 
   const showRemoveButton = () => {
-    savedButton.current.classList.add('card__saved-button_remove');
+    savedButton.current.classList.add('card__saved-btn_remove');
   };
 
   const hideRemoveButton = () => {
-    savedButton.current.classList.remove('card__saved-button_remove');
+    savedButton.current.classList.remove('card__saved-btn_remove');
   };
 
   return (
@@ -34,9 +34,9 @@ const MoviesCard = ({ isMovieSaved }) => {
         <span className='card__duration'>56ч 99м</span>
       </div>
       {isMovieSaved ? (
-        <button className='card__saved-button' ref={savedButton}/>
+        <button className='card__saved-btn' ref={savedButton}/>
       ) : (
-        <button className='card__save-button' ref={saveButton}>
+        <button className='card__save-btn' ref={saveButton}>
           Сохранить
         </button>
       )}

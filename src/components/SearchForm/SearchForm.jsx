@@ -17,7 +17,7 @@ const SearchForm = () => {
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder='Фильм'
         />
-        <button className='search-form__submit-button' type='submit' />
+        <button className='search-form__submit-btn' type='submit' />
       </div>
       <label className='search-form__label'>
         <input

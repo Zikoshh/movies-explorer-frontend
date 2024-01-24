@@ -62,7 +62,7 @@
   position: relative;
 }
 
-.profile__edit-button {
+.profile__edit-btn {
   font-size: 13px;
   font-weight: 400;
   line-height: normal;
@@ -75,7 +75,7 @@
   cursor: pointer;
 }
 
-.profile__edit-button:hover {
+.profile__edit-btn:hover {
   opacity: 0.8;
 }
 
@@ -103,7 +103,7 @@
   width: 100%;
 }
 
-.profile__submit-button {
+.profile__submit-btn {
   width: 100%;
   font-size: 14px;
   font-weight: 500;
@@ -130,11 +130,11 @@
     margin-top: 96px;
   }
 
-  .profile__edit-button {
+  .profile__edit-btn {
     margin-top: 210px;
   }
 
-  .profile__submit-button {
+  .profile__submit-btn {
     margin-top: 213px;
   }
 }
@@ -152,7 +152,7 @@
     margin-top: 80px;
   }
 
-  .profile__edit-button {
+  .profile__edit-btn {
     font-size: 12px;
     margin-top: 379px;
   }
@@ -161,7 +161,7 @@
     font-size: 12px;
   }
 
-  .profile__submit-button {
+  .profile__submit-btn {
     margin-top: 382px;
   }
 }

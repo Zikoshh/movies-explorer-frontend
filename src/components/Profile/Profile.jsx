@@ -51,14 +51,14 @@ const Profile = ({ onSignOut }) => {
             <p className='profile__error'>
               При обновлении профиля произошла ошибка.
             </p>
-            <button className='profile__submit-button' type='submit'>
+            <button className='profile__submit-btn' type='submit'>
               Сохранить
             </button>
           </div>
         ) : (
           <div className='profile__container'>
             <button
-              className='profile__edit-button'
+              className='profile__edit-btn'
               type='button'
               onClick={handleEditInfo}
             >

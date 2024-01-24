@@ -65,6 +65,10 @@
   line-height: normal;
 }
 
+.about-me__social-link:hover {
+  opacity: 0.7;
+}
+
 @media screen and (max-width: 768px) {
   .about-me {
     min-height: 513px;
