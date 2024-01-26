@@ -153,7 +153,7 @@
 
   .header_auth {
     padding-top: 232px;
-    width: 51.56%;
+    max-width: 396px;
   }
 
   .header__logo {
@@ -200,6 +200,17 @@
   }
 }
 
+@media screen and (max-width: 400px) {
+  .header_auth {
+    padding-top: 56px;
+    max-width: 260px;
+  }
+
+  .header__logo_auth {
+    margin: 0 auto;
+  }
+}
+
 @media screen and (max-width: 320px) {
   .header {
     max-width: 320px;
@@ -207,7 +218,7 @@
 
   .header_auth {
     padding-top: 56px;
-    width: 81.25%;
+    max-width: 260px;
   }
 
   .header__logo {

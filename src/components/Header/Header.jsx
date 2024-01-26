@@ -37,9 +37,9 @@ const Header = ({ isLoggedIn }) => {
   };
 
   return (
-    <div className={`header ${isTryingToAuth && 'header_auth'}`}>
+    <div className={`header ${isTryingToAuth ? 'header_auth' : ''}`}>
       <NavLink
-        className={`header__logo ${isTryingToAuth && 'header__logo_auth'}`}
+        className={`header__logo ${isTryingToAuth ? 'header__logo_auth' : ''}`}
         to='/'
       />
       {isTryingToAuth ? (
