@@ -6,7 +6,6 @@
   column-gap: 10px;
   text-align: center;
   box-sizing: border-box;
-  margin-bottom: 30px;
   justify-content: center;
 }
 
@@ -41,9 +40,9 @@
 
 @media screen and (max-width: 768px) {
   .navtab_techs {
-    grid-template-columns: repeat(7, 10.94%);
+    grid-template-columns: repeat(7, 84px);
     grid-template-rows: 57px;
-    column-gap: 0.78%;
+    column-gap: 10px;
   }
 
   .navtab__link_techs {
@@ -52,12 +51,27 @@
   }
 }
 
+@media screen and (max-width: 670px) {
+  .navtab_techs {
+    grid-template-columns: repeat(4, 84px);
+    grid-template-rows: repeat(2, 57px);
+    row-gap: 10px;
+  }
+}
+
+@media screen and (max-width: 390px) {
+  .navtab_techs {
+    grid-template-columns: repeat(3, 84px);
+    grid-template-rows: repeat(3, 57px);
+    row-gap: 10px;
+  }
+}
+
 @media screen and (max-width: 320px) {
   .navtab {
     grid-template-columns: repeat(3, 28.08%);
     grid-template-rows: 26px;
     column-gap: 2.05%;
-    margin-bottom: 17px;
   }
 
   .navtab__link {
@@ -67,9 +81,9 @@
   }
 
   .navtab_techs {
-    grid-template-columns: repeat(2, 26.25%);
+    grid-template-columns: repeat(2, 84px);
     grid-template-rows: repeat(4, 57px);
-    row-gap: 10px;
+    column-gap: 10px;
   }
 
   .navtab__link_techs {
