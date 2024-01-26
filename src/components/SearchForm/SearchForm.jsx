@@ -16,6 +16,7 @@ const SearchForm = () => {
           value={searchValue}
           onChange={(e) => setSearchValue(e.target.value)}
           placeholder='Фильм'
+          required
         />
         <button className='search-form__submit-btn' type='submit' />
       </div>
