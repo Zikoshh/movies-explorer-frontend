@@ -52,6 +52,7 @@ const App = () => {
                 type='text'
                 value={inputEmailSignIn}
                 onChange={(e) => setInputEmailSignIn(e.target.value)}
+                required
               />
               <p className='form__error'>Что-то пошло не так...</p>
               <label className='form__label' htmlFor='signin-password'>
@@ -64,6 +65,7 @@ const App = () => {
                 type='text'
                 value={inputPasswordSignIn}
                 onChange={(e) => setInputPasswordSignIn(e.target.value)}
+                required
               />
               <p className='form__error'>Что-то пошло не так...</p>
             </Form>
@@ -91,6 +93,7 @@ const App = () => {
                 type='text'
                 value={inputNameSignUp}
                 onChange={(e) => setInputNameSignUp(e.target.value)}
+                required
               />
               <p className='form__error'>Что-то пошло не так...</p>
               <label className='form__label' htmlFor='signup-email'>
@@ -103,6 +106,7 @@ const App = () => {
                 type='text'
                 value={inputEmailSignUp}
                 onChange={(e) => setInputEmailSignUp(e.target.value)}
+                required
               />
               <p className='form__error'>Что-то пошло не так...</p>
               <label className='form__label' htmlFor='signup-password'>
@@ -115,6 +119,7 @@ const App = () => {
                 type='text'
                 value={inputPasswordSignUp}
                 onChange={(e) => setInputPasswordSignUp(e.target.value)}
+                required
               />
               <p className='form__error'>Что-то пошло не так...</p>
             </Form>

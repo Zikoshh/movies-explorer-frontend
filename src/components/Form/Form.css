@@ -1,5 +1,6 @@
 .form {
-  width: 396px;
+  max-width: 396px;
+  width: 100%;
   min-height: 482px;
   display: flex;
   flex-direction: column;
@@ -34,10 +35,6 @@
   border-radius: 8px;
   color: white;
   box-sizing: border-box;
-}
-
-.form__input:focus {
-  outline: none;
 }
 
 .form__input_invalid {
@@ -98,20 +95,15 @@
   opacity: 0.7;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 400px) {
   .form {
-    width: 51.56%;
-  }
-}
-
-@media screen and (max-width: 320px) {
-  .form {
-    width: 81.25%;
+    max-width: 260px;
     margin-top: 50px;
   }
 
   .form__title {
     margin-bottom: 80px;
+    text-align: center;
   }
 
   .form__submit-btn {
