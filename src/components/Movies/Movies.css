@@ -4,7 +4,7 @@
   text-align: center;
 }
 
-.movies__more-btn {
+.movies__btn {
   border-radius: 6px;
   border: 1px solid #424242;
   background-color: #202020;
@@ -18,7 +18,7 @@
   margin: 50px 0 80px 0;
 }
 
-.movies__more-btn:hover {
+.movies__btn:hover {
   opacity: 0.8;
 }
 
@@ -33,7 +33,7 @@
     max-width: 320px;
   }
 
-  .movies__more-btn {
+  .movies__btn {
     min-width: 240px;
   }
 }

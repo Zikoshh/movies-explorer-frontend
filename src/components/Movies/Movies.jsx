@@ -7,7 +7,7 @@ const Movies = () => {
     <section className='movies'>
       <SearchForm />
       <MoviesCardList />
-      <button className='movies__more-btn' type='button'>Ещё</button>
+      <button className='movies__btn' type='button'>Ещё</button>
     </section>
   );
 };

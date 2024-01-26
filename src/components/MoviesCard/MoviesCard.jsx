@@ -1,5 +1,5 @@
 import './MoviesCard.css';
-import preview from '../../assets/images/movie-preview.jpg';
+import image from '../../assets/images/movie-image.jpg';
 import { useRef } from 'react';
 
 const MoviesCard = ({ isMovieSaved }) => {
@@ -28,7 +28,7 @@ const MoviesCard = ({ isMovieSaved }) => {
       onMouseEnter={isMovieSaved ? showRemoveButton : showSaveButton}
       onMouseLeave={isMovieSaved ? hideRemoveButton : hideSaveButton}
     >
-      <img className='card__preview' src={preview} alt='#' />
+      <img className='card__image' src={image} alt='test-img' />
       <div className='card__info'>
         <h4 className='card__title'>Чивоооооооооо</h4>
         <span className='card__duration'>56ч 99м</span>
