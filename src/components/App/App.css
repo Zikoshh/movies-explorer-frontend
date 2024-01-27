@@ -1,0 +1,13 @@
+html {
+  scroll-behavior: smooth;
+}
+
+.page {
+  background-color: #202020;
+  font-family: 'Inter', Arial, sans-serif;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0;
+  color: white;
+  box-sizing: border-box;
+}
