@@ -8,7 +8,7 @@ import SavedMovies from '../SavedMovies/index';
 import Profile from '../Profile/index';
 import Form from '../Form/index';
 import NotFound from '../NotFound/index';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const App = () => {
   const [inputEmailSignIn, setInputEmailSignIn] = useState('');
@@ -18,18 +18,64 @@ const App = () => {
   const [inputPasswordSignUp, setInputPasswordSignUp] = useState('');
   const [isLoggedIn, setIsLoggedIn] = useState(true);
 
+  const [windowSize, setWindowSize] = useState(getWindowSize());
+  const [displayMovieCount, setDisplayMovieCount] = useState(12);
+  const [numberAdditionalMovies, setNumberAdditionalMovies] = useState(3);
+
+  useEffect(() => {
+    window.addEventListener('resize', handleWindowResize);
+
+    if (windowSize.width > 768) {
+      setDisplayMovieCount(12);
+      setNumberAdditionalMovies(3);
+    }
+
+    if (windowSize.width <= 768) {
+      setDisplayMovieCount(8);
+      setNumberAdditionalMovies(2);
+    }
+
+    if (windowSize.width <= 480) {
+      setDisplayMovieCount(5);
+      setNumberAdditionalMovies(2);
+    }
+
+    return () => {
+      window.removeEventListener('resize', handleWindowResize);
+    };
+  }, [windowSize.width]);
+
+  const handleWindowResize = () => {
+    setTimeout(() => setWindowSize(getWindowSize()), 200);
+  };
+
   const handleSignOut = () => {
     setIsLoggedIn(false);
-  }
+  };
+
+  const handleAdditionalButton = () => {
+    setDisplayMovieCount(displayMovieCount + numberAdditionalMovies);
+  };
 
   return (
     <div className='page'>
       <Header isLoggedIn={isLoggedIn} />
       <Routes>
         <Route path='/' element={<Main />} />a
-        <Route path='/movies' element={<Movies />} />
+        <Route
+          path='/movies'
+          element={
+            <Movies
+              displayMovieCount={displayMovieCount}
+              onAdditionalButtonClick={handleAdditionalButton}
+            />
+          }
+        />
         <Route path='/saved-movies' element={<SavedMovies />} />
-        <Route path='/profile' element={<Profile onSignOut={handleSignOut} />} />
+        <Route
+          path='/profile'
+          element={<Profile onSignOut={handleSignOut} />}
+        />
         <Route
           path='/signin'
           element={
@@ -130,6 +176,10 @@ const App = () => {
       <Footer />
     </div>
   );
+};
+
+const getWindowSize = () => {
+  return { width: window.innerWidth, height: window.innerHeight };
 };
 
 export default App;
