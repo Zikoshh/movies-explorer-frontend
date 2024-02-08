@@ -6,6 +6,9 @@
 
 .card__image {
   border-radius: 5px;
+  height: 190px;
+  width: 100%;
+  object-fit: cover;
 }
 
 .card__info {
