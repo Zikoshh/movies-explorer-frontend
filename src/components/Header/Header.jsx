@@ -8,11 +8,11 @@ const Header = ({ isLoggedIn }) => {
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const location = useLocation();
 
-  useEffect(() => {
-    const handleWindowResize = () => {
-      setWindowSize(getWindowSize());
-    };
+  const handleWindowResize = () => {
+    setTimeout(() => setWindowSize(getWindowSize()), 200);
+  };
 
+  useEffect(() => {
     window.addEventListener('resize', handleWindowResize);
 
     if (location.pathname === '/signin') {
@@ -45,7 +45,7 @@ const Header = ({ isLoggedIn }) => {
       {isTryingToAuth ? (
         ''
       ) : isLoggedIn ? (
-        windowSize.innerWidth > 768 ? (
+        windowSize.width > 768 ? (
           <div>
             <NavLink
               to='/movies'
@@ -82,7 +82,7 @@ const Header = ({ isLoggedIn }) => {
       {isTryingToAuth ? (
         ''
       ) : isLoggedIn ? (
-        windowSize.innerWidth > 768 ? (
+        windowSize.width > 768 ? (
           <NavLink
             to='/profile'
             className={({ isActive }) =>
@@ -157,8 +157,7 @@ const Header = ({ isLoggedIn }) => {
 };
 
 const getWindowSize = () => {
-  const { innerWidth, innerHeight } = window;
-  return { innerWidth, innerHeight };
+  return { width: window.innerWidth, height: window.innerHeight };
 };
 
 export default Header;

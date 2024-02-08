@@ -1,6 +1,6 @@
 import { NavLink } from 'react-router-dom';
 import './Profile.css';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 
 const Profile = ({ onSignOut }) => {
   const [name, setName] = useState('');
@@ -8,8 +8,6 @@ const Profile = ({ onSignOut }) => {
   const inputNameRef = useRef(null);
   const inputEmailRef = useRef(null);
   const [isEditButtonClicked, setIsEditButtonClicked] = useState(false);
-
-  useEffect(() => {}, []);
 
   const handleEditInfo = () => {
     setIsEditButtonClicked(true);
