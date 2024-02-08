@@ -1,20 +1,45 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import './SearchForm.css';
 
-const SearchForm = () => {
-  const [searchValue, setSearchValue] = useState('');
+const SearchForm = ({ onSubmit }) => {
+  const [query, setQuery] = useState('');
+  const checkboxRef = useRef();
 
-  const handleSubmit = () => {};
+  useEffect(() => {
+    const queryLs = localStorage.getItem('query');
+    const checked = localStorage.getItem('checked');
+
+    if (queryLs) {
+      setQuery(queryLs);
+    }
+
+    if (checked) {
+      if (checked === 'true') {
+        checkboxRef.current.checked = true;
+      } else {
+        checkboxRef.current.checked = false;
+      }
+    }
+  }, []);
+
+  const handleCheckbox = (e) => {
+    localStorage.setItem('checked', e.target.checked);
+  };
+
+  const handleSearchInput = (e) => {
+    localStorage.setItem('query', e.target.value);
+    setQuery(e.target.value);
+  };
 
   return (
-    <form className='search-form' onSubmit={handleSubmit}>
+    <form className='search-form' onSubmit={onSubmit}>
       <div className='search-form__container'>
         <input
+          onChange={handleSearchInput}
+          value={query || ''}
           name='search'
           className='search-form__input'
           type='search'
-          value={searchValue}
-          onChange={(e) => setSearchValue(e.target.value)}
           placeholder='Фильм'
           required
         />
@@ -22,9 +47,11 @@ const SearchForm = () => {
       </div>
       <label className='search-form__label'>
         <input
+          ref={checkboxRef}
           className='search-form__checkbox'
-          name='short-films'
+          name='checkbox'
           type='checkbox'
+          onChange={handleCheckbox}
         />
         <span className='search-form__label-text'>Короткометражки</span>
       </label>
