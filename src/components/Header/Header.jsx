@@ -15,12 +15,10 @@ const Header = ({ isLoggedIn }) => {
   useEffect(() => {
     window.addEventListener('resize', handleWindowResize);
 
-    if (location.pathname === '/signin') {
+    if (location.pathname === '/signin' || location.pathname === '/signup') {
       setIsTryingToAuth(true);
-    }
-
-    if (location.pathname === '/signup') {
-      setIsTryingToAuth(true);
+    } else {
+      setIsTryingToAuth(false);
     }
 
     return () => {
