@@ -1,180 +1,154 @@
 import './App.css';
-import { Route, Routes } from 'react-router-dom';
+import CurrentUserContext from '../CurrentUserContext';
+import { useState, useEffect } from 'react';
+import { Route, Routes, useNavigate } from 'react-router-dom';
 import Header from '../Header/index';
 import Footer from '../Footer/index';
 import Main from '../Main/index';
 import Movies from '../Movies/index';
 import SavedMovies from '../SavedMovies/index';
 import Profile from '../Profile/index';
-import Form from '../Form/index';
 import NotFound from '../NotFound/index';
-import { useState, useEffect } from 'react';
+import SignIn from '../SignIn/index';
+import SignUp from '../SignUp/index';
+import ProtectedRoute from '../ProtectedRoute/index';
+import * as MoviesApi from '../../utils/MoviesApi';
+import * as MainApi from '../../utils/MainApi';
 
 const App = () => {
-  const [inputEmailSignIn, setInputEmailSignIn] = useState('');
-  const [inputPasswordSignIn, setInputPasswordSignIn] = useState('');
-  const [inputNameSignUp, setInputNameSignUp] = useState('');
-  const [inputEmailSignUp, setInputEmailSignUp] = useState('');
-  const [inputPasswordSignUp, setInputPasswordSignUp] = useState('');
-  const [isLoggedIn, setIsLoggedIn] = useState(true);
-
+  const userId = localStorage.getItem('userId');
+  const [isLoggedIn, setIsLoggedIn] = useState(userId ? true : false);
+  const [currentUser, setCurrentUser] = useState({});
   const [windowSize, setWindowSize] = useState(getWindowSize());
-  const [displayMovieCount, setDisplayMovieCount] = useState(12);
-  const [numberAdditionalMovies, setNumberAdditionalMovies] = useState(3);
+  const [tipTextSignIn, setTipTextSignIn] = useState('');
+  const [tipTextSignUp, setTipTextSignUp] = useState('');
+  const [tipTextProfile, setTipTextProfile] = useState('');
+  const navigate = useNavigate();
 
   useEffect(() => {
+    let debounce = '';
+
+    const handleWindowResize = () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => {
+        setWindowSize(getWindowSize());
+      }, 200);
+    };
+
     window.addEventListener('resize', handleWindowResize);
-
-    if (windowSize.width > 768) {
-      setDisplayMovieCount(12);
-      setNumberAdditionalMovies(3);
-    }
-
-    if (windowSize.width <= 768) {
-      setDisplayMovieCount(8);
-      setNumberAdditionalMovies(2);
-    }
-
-    if (windowSize.width <= 480) {
-      setDisplayMovieCount(5);
-      setNumberAdditionalMovies(2);
-    }
 
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
   }, [windowSize.width]);
 
-  const handleWindowResize = () => {
-    setTimeout(() => setWindowSize(getWindowSize()), 200);
-  };
+  useEffect(() => {
+    MainApi.auth()
+      .then((userData) => {
+        localStorage.setItem('userId', userData._id);
+        setCurrentUser(userData);
+        setIsLoggedIn(true);
+      })
+      .catch(({ message }) => {
+        console.log(message);
+        localStorage.clear();
+        setIsLoggedIn(false);
+      });
+  }, []);
 
   const handleSignOut = () => {
-    setIsLoggedIn(false);
+    MainApi.signOut()
+      .then(() => {
+        localStorage.clear();
+        setIsLoggedIn(false);
+        navigate('/');
+        setCurrentUser({});
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsLoggedIn(true);
+      });
   };
 
-  const handleAdditionalButton = () => {
-    setDisplayMovieCount(displayMovieCount + numberAdditionalMovies);
+  const handleSignIn = (credentials) => {
+    MainApi.signIn(credentials)
+      .then((userData) => {
+        localStorage.setItem('userId', userData._id);
+        setCurrentUser(userData);
+        setIsLoggedIn(true);
+        navigate('/movies');
+      })
+      .catch(({ message }) => {
+        setTipTextSignIn(message);
+        setIsLoggedIn(false);
+      });
+  };
+
+  const handleSignUp = (credentials) => {
+    MainApi.signUp(credentials)
+      .then((userData) => {
+        localStorage.setItem('userId', userData._id);
+        setCurrentUser(userData);
+        setIsLoggedIn(true);
+        navigate('/movies');
+      })
+      .catch(({ message }) => {
+        setTipTextSignUp(message);
+        setIsLoggedIn(false);
+      });
+  };
+
+  const handleEditProfile = (userInfo) => {
+    MainApi.updateUserInfo(userInfo)
+      .then((userData) => {
+        setCurrentUser(userData);
+      })
+      .catch(({ message }) => {
+        setTipTextProfile(message);
+      });
   };
 
   return (
-    <div className='page'>
-      <Header isLoggedIn={isLoggedIn} />
-      <Routes>
-        <Route path='/' element={<Main />} />a
-        <Route
-          path='/movies'
-          element={
-            <Movies
-              displayMovieCount={displayMovieCount}
-              onAdditionalButtonClick={handleAdditionalButton}
-            />
-          }
-        />
-        <Route path='/saved-movies' element={<SavedMovies />} />
-        <Route
-          path='/profile'
-          element={<Profile onSignOut={handleSignOut} />}
-        />
-        <Route
-          path='/signin'
-          element={
-            <Form
-              handleSubmit={() => {}}
-              titleText='Рады видеть!'
-              submitButtonText='Войти'
-              yetText='Ещё не зарегистрированы?'
-              linkText='Регистрация'
-              routLink='/signup'
-              isSignInForm={true}
-            >
-              <label className='form__label' htmlFor='signin-email'>
-                E-mail
-              </label>
-              <input
-                id='signin-email'
-                className='form__input'
-                name='email'
-                type='text'
-                value={inputEmailSignIn}
-                onChange={(e) => setInputEmailSignIn(e.target.value)}
-                required
+    <CurrentUserContext.Provider value={currentUser}>
+      <div className='page'>
+        <Header isLoggedIn={isLoggedIn} />
+        <Routes>
+          <Route path='/' element={<Main />} />
+          <Route
+            path='/movies'
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn} component={Movies} />
+            }
+          />
+          <Route
+            path='/saved-movies'
+            element={
+              <ProtectedRoute isLoggedIn={isLoggedIn} component={SavedMovies} />
+            }
+          />
+          <Route
+            path='/profile'
+            element={
+              <Profile
+                onEditProfile={handleEditProfile}
+                onSignOut={handleSignOut}
+                tipText={tipTextProfile}
               />
-              <p className='form__error'>Что-то пошло не так...</p>
-              <label className='form__label' htmlFor='signin-password'>
-                Пароль
-              </label>
-              <input
-                id='signin-password'
-                className='form__input'
-                name='password'
-                type='text'
-                value={inputPasswordSignIn}
-                onChange={(e) => setInputPasswordSignIn(e.target.value)}
-                required
-              />
-              <p className='form__error'>Что-то пошло не так...</p>
-            </Form>
-          }
-        />
-        <Route
-          path='/signup'
-          element={
-            <Form
-              handleSubmit={() => {}}
-              titleText='Добро пожаловать!'
-              submitButtonText='Зарегистрироваться'
-              yetText='Уже зарегистрированы?'
-              linkText='Войти'
-              routLink='/signin'
-              isSignInForm={false}
-            >
-              <label className='form__label' htmlFor='signup-name'>
-                Имя
-              </label>
-              <input
-                id='signup-name'
-                className='form__input'
-                name='name'
-                type='text'
-                value={inputNameSignUp}
-                onChange={(e) => setInputNameSignUp(e.target.value)}
-                required
-              />
-              <p className='form__error'>Что-то пошло не так...</p>
-              <label className='form__label' htmlFor='signup-email'>
-                E-mail
-              </label>
-              <input
-                id='signup-email'
-                className='form__input'
-                name='email'
-                type='text'
-                value={inputEmailSignUp}
-                onChange={(e) => setInputEmailSignUp(e.target.value)}
-                required
-              />
-              <p className='form__error'>Что-то пошло не так...</p>
-              <label className='form__label' htmlFor='signup-password'>
-                Пароль
-              </label>
-              <input
-                id='signup-password'
-                className='form__input'
-                name='password'
-                type='text'
-                value={inputPasswordSignUp}
-                onChange={(e) => setInputPasswordSignUp(e.target.value)}
-                required
-              />
-              <p className='form__error'>Что-то пошло не так...</p>
-            </Form>
-          }
-        />
-        <Route path='*' element={<NotFound />} />
-      </Routes>
-      <Footer />
-    </div>
+            }
+          />
+          <Route
+            path='/signin'
+            element={<SignIn onSignIn={handleSignIn} tipText={tipTextSignIn} />}
+          />
+          <Route
+            path='/signup'
+            element={<SignUp onSignUp={handleSignUp} tipText={tipTextSignUp} />}
+          />
+          <Route path='*' element={<NotFound />} />
+        </Routes>
+        <Footer />
+      </div>
+    </CurrentUserContext.Provider>
   );
 };
 
