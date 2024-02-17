@@ -8,8 +8,6 @@ const getResponse = (res) => {
   return res.json();
 };
 
-const getMovies = () => {
+export const getMovies = () => {
   return fetch(apiUrl).then(getResponse);
 }
-
-export default getMovies;

@@ -1,8 +1,8 @@
 const apiUrl = 'https://api.zikoshh.nomoredomainsmonster.ru';
 
-const getResponse = (res) => {
+const getResponse = async (res) => {
   if (!res.ok) {
-    return Promise.reject(`Ошибка: ${res.status}`);
+    return Promise.reject(await res.json());
   }
 
   return res.json();
@@ -17,7 +17,7 @@ const auth = () => {
   }).then(getResponse);
 };
 
-const updateUserInfo = ({ name, email }) => {
+const updateUserInfo = (userInfo) => {
   return fetch(`${apiUrl}/users/me`, {
     method: 'PATCH',
     credentials: 'include',
@@ -25,14 +25,11 @@ const updateUserInfo = ({ name, email }) => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({
-      name: name,
-      email: email,
-    }),
+    body: JSON.stringify(userInfo),
   }).then(getResponse);
 };
 
-const signUp = ({ name, email, password }) => {
+const signUp = (credentials) => {
   return fetch(`${apiUrl}/signup`, {
     method: 'POST',
     credentials: 'include',
@@ -40,15 +37,11 @@ const signUp = ({ name, email, password }) => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({
-      name: name,
-      email: email,
-      password: password,
-    }),
+    body: JSON.stringify(credentials),
   }).then(getResponse);
 };
 
-const signIn = ({ email, password }) => {
+const signIn = (credentials) => {
   return fetch(`${apiUrl}/signin`, {
     method: 'POST',
     credentials: 'include',
@@ -56,10 +49,7 @@ const signIn = ({ email, password }) => {
       'Content-Type': 'application/json',
       Accept: 'application/json',
     },
-    body: JSON.stringify({
-      email: email,
-      password: password,
-    }),
+    body: JSON.stringify(credentials),
   }).then(getResponse);
 };
 
@@ -73,7 +63,7 @@ const signOut = () => {
   }).then(getResponse);
 };
 
-const getFavoriteMovies = () => {
+const getSavedMovies = () => {
   return fetch(`${apiUrl}/movies`, {
     credentials: 'include',
     headers: {
@@ -82,7 +72,7 @@ const getFavoriteMovies = () => {
   }).then(getResponse);
 };
 
-const addMovieInFavorites = (movie) => {
+const addMovieInSaved = (movie) => {
   return fetch(`${apiUrl}/movies`, {
     method: 'POST',
     credentials: 'include',
@@ -94,7 +84,7 @@ const addMovieInFavorites = (movie) => {
   }).then(getResponse);
 };
 
-const removeMovieFromFavorites = (movieId) => {
+const removeMovieFromSaved = (movieId) => {
   return fetch(`${apiUrl}/movies/${movieId}`, {
     method: 'DELETE',
     credentials: 'include',
@@ -110,7 +100,7 @@ export {
   signUp,
   signIn,
   signOut,
-  getFavoriteMovies,
-  addMovieInFavorites,
-  removeMovieFromFavorites,
+  getSavedMovies,
+  addMovieInSaved,
+  removeMovieFromSaved,
 };
