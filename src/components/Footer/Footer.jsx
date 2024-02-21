@@ -26,10 +26,20 @@ const Footer = () => {
       <div className='footer__container'>
         <p className='footer__copyright'>© 2024</p>
         <div className='footer__links'>
-          <a className='footer__link' href='da'>
+          <a
+            className='footer__link'
+            href='https://practicum.yandex.ru/'
+            target='_blank'
+            rel='noreferrer'
+          >
             Яндекс.Практикум
           </a>
-          <a className='footer__link' href='da'>
+          <a
+            className='footer__link'
+            href='https://github.com/Zikoshh'
+            target='_blank'
+            rel='noreferrer'
+          >
             Github
           </a>
         </div>
