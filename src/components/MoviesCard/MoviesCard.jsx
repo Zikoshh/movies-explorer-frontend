@@ -1,9 +1,11 @@
 import './MoviesCard.css';
 import { useRef } from 'react';
+import { useLocation } from 'react-router-dom';
 
-const MoviesCard = ({ isMovieSaved, movie }) => {
+const MoviesCard = ({ handleSaveMovie, handleRemoveMovie, movie }) => {
   const saveButton = useRef();
-  const savedButton = useRef();
+  const removeButton = useRef();
+  const location = useLocation();
 
   const showSaveButton = () => {
     saveButton.current.classList.add('card__save-btn_visible');
@@ -14,11 +16,11 @@ const MoviesCard = ({ isMovieSaved, movie }) => {
   };
 
   const showRemoveButton = () => {
-    savedButton.current.classList.add('card__saved-btn_remove');
+    removeButton.current.classList.add('card__saved-btn_remove');
   };
 
   const hideRemoveButton = () => {
-    savedButton.current.classList.remove('card__saved-btn_remove');
+    removeButton.current.classList.remove('card__saved-btn_remove');
   };
 
   const getMovieDuration = (totalMinutes) => {
@@ -27,11 +29,27 @@ const MoviesCard = ({ isMovieSaved, movie }) => {
     return `${hours}ч ${minutes}м`;
   };
 
+  const onSaveBtnClick = () => {
+    handleSaveMovie(movie);
+  };
+
+  const onRemoveBtnClick = () => {
+    handleRemoveMovie(movie.id);
+  };
+
   return (
     <article
       className='card'
-      onMouseEnter={isMovieSaved ? showRemoveButton : showSaveButton}
-      onMouseLeave={isMovieSaved ? hideRemoveButton : hideSaveButton}
+      onMouseEnter={
+        (location.pathname === '/saved-movies' ? true : movie.saved)
+          ? showRemoveButton
+          : showSaveButton
+      }
+      onMouseLeave={
+        (location.pathname === '/saved-movies' ? true : movie.saved)
+          ? hideRemoveButton
+          : hideSaveButton
+      }
     >
       <a href={movie.trailerLink} target='_blank' rel='noreferrer'>
         <img
@@ -50,10 +68,18 @@ const MoviesCard = ({ isMovieSaved, movie }) => {
             : getMovieDuration(movie.duration)}
         </span>
       </div>
-      {isMovieSaved ? (
-        <button className='card__saved-btn' ref={savedButton} />
+      {(location.pathname === '/saved-movies' ? true : movie.saved) ? (
+        <button
+          className='card__saved-btn'
+          ref={removeButton}
+          onClick={onRemoveBtnClick}
+        />
       ) : (
-        <button className='card__save-btn' ref={saveButton}>
+        <button
+          className='card__save-btn'
+          ref={saveButton}
+          onClick={onSaveBtnClick}
+        >
           Сохранить
         </button>
       )}

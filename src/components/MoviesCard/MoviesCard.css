@@ -89,7 +89,7 @@
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 480px) {
   .card__info {
     margin: 16px 0 0 0;
   }
