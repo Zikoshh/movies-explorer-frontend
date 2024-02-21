@@ -14,55 +14,69 @@ import SignUp from '../SignUp/index';
 import ProtectedRoute from '../ProtectedRoute/index';
 import * as MoviesApi from '../../utils/MoviesApi';
 import * as MainApi from '../../utils/MainApi';
+import movieFilter from '../../utils/movieFilter';
 
 const App = () => {
   const userId = localStorage.getItem('userId');
   const [isLoggedIn, setIsLoggedIn] = useState(userId ? true : false);
   const [currentUser, setCurrentUser] = useState({});
-  const [windowSize, setWindowSize] = useState(getWindowSize());
   const [tipTextSignIn, setTipTextSignIn] = useState('');
   const [tipTextSignUp, setTipTextSignUp] = useState('');
   const [tipTextProfile, setTipTextProfile] = useState('');
+  const [savedMovies, setSavedMovies] = useState(
+    JSON.parse(localStorage.getItem('savedMovies')) || []
+  );
+  const [filteredMovies, setFilteredMovies] = useState(
+    JSON.parse(localStorage.getItem('filteredMovies')) || []
+  );
   const navigate = useNavigate();
 
   useEffect(() => {
-    let debounce = '';
+    if (isLoggedIn) {
+      MainApi.auth()
+        .then((userData) => {
+          localStorage.setItem('userId', userData._id);
+          setCurrentUser(userData);
+          setIsLoggedIn(true);
+        })
+        .catch(({ message }) => {
+          console.log(message);
+          localStorage.clear();
+          setIsLoggedIn(false);
+        });
 
-    const handleWindowResize = () => {
-      clearTimeout(debounce);
-      debounce = setTimeout(() => {
-        setWindowSize(getWindowSize());
-      }, 200);
-    };
+      Promise.all([MoviesApi.getMovies(), MainApi.getSavedMovies()])
+        .then(([allMovies, savedMovies]) => {
+          const newAllMovies = allMovies.map((movie) => {
+            return {
+              ...movie,
+              saved: savedMovies.some(
+                (savedMovie) => savedMovie.id === movie.id
+              ),
+            };
+          });
 
-    window.addEventListener('resize', handleWindowResize);
-
-    return () => {
-      window.removeEventListener('resize', handleWindowResize);
-    };
-  }, [windowSize.width]);
-
-  useEffect(() => {
-    MainApi.auth()
-      .then((userData) => {
-        localStorage.setItem('userId', userData._id);
-        setCurrentUser(userData);
-        setIsLoggedIn(true);
-      })
-      .catch(({ message }) => {
-        console.log(message);
-        localStorage.clear();
-        setIsLoggedIn(false);
-      });
-  }, []);
+          localStorage.setItem('allMovies', JSON.stringify(newAllMovies));
+          localStorage.setItem('savedMovies', JSON.stringify(savedMovies));
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [isLoggedIn]);
 
   const handleSignOut = () => {
     MainApi.signOut()
       .then(() => {
         localStorage.clear();
         setIsLoggedIn(false);
-        navigate('/');
         setCurrentUser({});
+        setTipTextSignIn('');
+        setTipTextSignUp('');
+        setTipTextProfile('');
+        setSavedMovies([]);
+        setFilteredMovies([]);
+        navigate('/');
       })
       .catch((error) => {
         console.log(error);
@@ -108,6 +122,116 @@ const App = () => {
       });
   };
 
+  const handleMoviesSubmit = (query, checkboxState) => {
+    const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+
+    const filteredMovies = movieFilter(query, checkboxState, allMovies);
+
+    setFilteredMovies(filteredMovies);
+    localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
+  };
+
+  const handleSavedMoviesSubmit = (query, checkboxState) => {
+    const savedMoviesLs = JSON.parse(localStorage.getItem('savedMovies'));
+
+    const filteredSavedMovies = movieFilter(
+      query,
+      checkboxState,
+      savedMoviesLs
+    );
+
+    setSavedMovies(filteredSavedMovies);
+  };
+
+  const handleSaveMovie = ({
+    duration,
+    trailerLink,
+    image,
+    id,
+    nameRU,
+    nameEN,
+  }) => {
+    MainApi.saveMovie({
+      duration,
+      trailerLink,
+      image: { url: image.url },
+      id,
+      nameRU,
+      nameEN,
+    })
+      .then((savedMovie) => {
+        const savedMoviesLs = JSON.parse(localStorage.getItem('savedMovies'));
+        const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+
+        const newAllMovies = allMovies.map((movie) => {
+          if (movie.id === savedMovie.id) {
+            movie.saved = true;
+          }
+          return movie;
+        });
+
+        const newFilteredMovies = filteredMovies.map((filteredMovie) => {
+          if (filteredMovie.id === savedMovie.id) {
+            filteredMovie.saved = true;
+          }
+          return filteredMovie;
+        });
+
+        localStorage.setItem(
+          'filteredMovies',
+          JSON.stringify(newFilteredMovies)
+        );
+        localStorage.setItem('allMovies', JSON.stringify(newAllMovies));
+        localStorage.setItem(
+          'savedMovies',
+          JSON.stringify([...savedMoviesLs, savedMovie])
+        );
+        setSavedMovies(JSON.parse(localStorage.getItem('savedMovies')));
+        setFilteredMovies(newFilteredMovies);
+      })
+      .catch(({ message }) => {
+        console.log(message);
+      });
+  };
+
+  const handleRemoveMovie = (movieId) => {
+    MainApi.removeMovie(movieId)
+      .then((removedMovie) => {
+        const savedMoviesLs = JSON.parse(localStorage.getItem('savedMovies'));
+        const allMovies = JSON.parse(localStorage.getItem('allMovies'));
+
+        const newSavedMovies = savedMoviesLs.filter((savedMovieLs) => {
+          return savedMovieLs.id !== removedMovie.id;
+        });
+
+        const newAllMovies = allMovies.map((movie) => {
+          if (movie.id === removedMovie.id) {
+            movie.saved = false;
+          }
+          return movie;
+        });
+
+        const newFilteredMovies = filteredMovies.map((filteredMovie) => {
+          if (filteredMovie.id === removedMovie.id) {
+            filteredMovie.saved = false;
+          }
+          return filteredMovie;
+        });
+
+        localStorage.setItem(
+          'filteredMovies',
+          JSON.stringify(newFilteredMovies)
+        );
+        localStorage.setItem('allMovies', JSON.stringify(newAllMovies));
+        localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
+        setSavedMovies(newSavedMovies);
+        setFilteredMovies(newFilteredMovies);
+      })
+      .catch(({ message }) => {
+        console.log(message);
+      });
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className='page'>
@@ -117,22 +241,38 @@ const App = () => {
           <Route
             path='/movies'
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn} component={Movies} />
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                handleSaveMovie={handleSaveMovie}
+                handleRemoveMovie={handleRemoveMovie}
+                handleSubmit={handleMoviesSubmit}
+                filteredMovies={filteredMovies}
+                component={Movies}
+              />
             }
           />
           <Route
             path='/saved-movies'
             element={
-              <ProtectedRoute isLoggedIn={isLoggedIn} component={SavedMovies} />
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
+                handleSaveMovie={handleSaveMovie}
+                handleRemoveMovie={handleRemoveMovie}
+                handleSubmit={handleSavedMoviesSubmit}
+                savedMovies={savedMovies}
+                component={SavedMovies}
+              />
             }
           />
           <Route
             path='/profile'
             element={
-              <Profile
+              <ProtectedRoute
+                isLoggedIn={isLoggedIn}
                 onEditProfile={handleEditProfile}
                 onSignOut={handleSignOut}
                 tipText={tipTextProfile}
+                component={Profile}
               />
             }
           />
@@ -150,10 +290,6 @@ const App = () => {
       </div>
     </CurrentUserContext.Provider>
   );
-};
-
-const getWindowSize = () => {
-  return { width: window.innerWidth, height: window.innerHeight };
 };
 
 export default App;
