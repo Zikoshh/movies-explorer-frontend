@@ -1,38 +1,52 @@
 import { useEffect, useRef, useState } from 'react';
 import './SearchForm.css';
+import { useLocation } from 'react-router-dom';
 
 const SearchForm = ({ onSubmit }) => {
   const [query, setQuery] = useState('');
   const checkboxRef = useRef();
+  const location = useLocation();
 
   useEffect(() => {
-    const queryLs = localStorage.getItem('query');
-    const checked = localStorage.getItem('checked');
+    if (location.pathname === '/movies') {
+      const queryLs = localStorage.getItem('query');
+      const checkboxState = localStorage.getItem('checkboxState');
 
-    if (queryLs) {
-      setQuery(queryLs);
-    }
+      if (queryLs) {
+        setQuery(queryLs);
+      }
 
-    if (checked) {
-      if (checked === 'true') {
-        checkboxRef.current.checked = true;
-      } else {
-        checkboxRef.current.checked = false;
+      if (checkboxState) {
+        if (checkboxState === 'true') {
+          checkboxRef.current.checked = true;
+        } else {
+          checkboxRef.current.checked = false;
+        }
       }
     }
-  }, []);
+  }, [location]);
 
   const handleCheckbox = (e) => {
-    localStorage.setItem('checked', e.target.checked);
+    if (location.pathname === '/movies') {
+      localStorage.setItem('checkboxState', e.target.checked);
+    }
+    checkboxRef.current.checked = e.target.checked;
   };
 
   const handleSearchInput = (e) => {
-    localStorage.setItem('query', e.target.value);
+    if (location.pathname === '/movies') {
+      localStorage.setItem('query', e.target.value);
+    }
     setQuery(e.target.value);
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    onSubmit(query, checkboxRef.current.checked);
+  };
+
   return (
-    <form className='search-form' onSubmit={onSubmit}>
+    <form className='search-form' onSubmit={handleSubmit}>
       <div className='search-form__container'>
         <input
           onChange={handleSearchInput}
