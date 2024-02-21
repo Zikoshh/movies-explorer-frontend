@@ -8,23 +8,31 @@ const Header = ({ isLoggedIn }) => {
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const location = useLocation();
 
-  const handleWindowResize = () => {
-    setTimeout(() => setWindowSize(getWindowSize()), 200);
-  };
 
   useEffect(() => {
-    window.addEventListener('resize', handleWindowResize);
-
     if (location.pathname === '/signin' || location.pathname === '/signup') {
       setIsTryingToAuth(true);
     } else {
       setIsTryingToAuth(false);
     }
+  }, [location]);
+
+  useEffect(() => {
+    let debounce = '';
+
+    const handleWindowResize = () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => {
+        setWindowSize(getWindowSize());
+      }, 200);
+    };
+
+    window.addEventListener('resize', handleWindowResize);
 
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
-  }, [location]);
+  }, [windowSize.width]);
 
   const handleOpenNavPopup = () => {
     setIsNavPopupOpen(true);
