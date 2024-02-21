@@ -65,6 +65,7 @@ const App = () => {
     }
   }, [isLoggedIn]);
 
+  /*Логика выхода из приложения*/
   const handleSignOut = () => {
     MainApi.signOut()
       .then(() => {
@@ -84,6 +85,7 @@ const App = () => {
       });
   };
 
+  /*Логика Авторизации*/
   const handleSignIn = (credentials) => {
     MainApi.signIn(credentials)
       .then((userData) => {
@@ -98,6 +100,7 @@ const App = () => {
       });
   };
 
+  /*Логика Регистрации*/
   const handleSignUp = (credentials) => {
     MainApi.signUp(credentials)
       .then((userData) => {
@@ -112,6 +115,7 @@ const App = () => {
       });
   };
 
+  /*Логика редактирования профиля*/
   const handleEditProfile = (userInfo) => {
     MainApi.updateUserInfo(userInfo)
       .then((userData) => {
@@ -122,6 +126,7 @@ const App = () => {
       });
   };
 
+  /*Логика поиска фильмов на странице /movies*/
   const handleMoviesSubmit = (query, checkboxState) => {
     const allMovies = JSON.parse(localStorage.getItem('allMovies'));
 
@@ -131,6 +136,7 @@ const App = () => {
     localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
   };
 
+  /*Логика поиска фильмов на странице /saved-movies*/
   const handleSavedMoviesSubmit = (query, checkboxState) => {
     const savedMoviesLs = JSON.parse(localStorage.getItem('savedMovies'));
 
@@ -143,6 +149,7 @@ const App = () => {
     setSavedMovies(filteredSavedMovies);
   };
 
+  /*Логика добавления фильма в сохраненные*/
   const handleSaveMovie = ({
     duration,
     trailerLink,
@@ -194,6 +201,7 @@ const App = () => {
       });
   };
 
+  /*Логика удаления фильма из сохраненных*/
   const handleRemoveMovie = (movieId) => {
     MainApi.removeMovie(movieId)
       .then((removedMovie) => {
