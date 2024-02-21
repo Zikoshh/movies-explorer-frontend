@@ -72,7 +72,7 @@ const getSavedMovies = () => {
   }).then(getResponse);
 };
 
-const addMovieInSaved = (movie) => {
+const saveMovie = (movie) => {
   return fetch(`${apiUrl}/movies`, {
     method: 'POST',
     credentials: 'include',
@@ -84,7 +84,7 @@ const addMovieInSaved = (movie) => {
   }).then(getResponse);
 };
 
-const removeMovieFromSaved = (movieId) => {
+const removeMovie = (movieId) => {
   return fetch(`${apiUrl}/movies/${movieId}`, {
     method: 'DELETE',
     credentials: 'include',
@@ -101,6 +101,6 @@ export {
   signIn,
   signOut,
   getSavedMovies,
-  addMovieInSaved,
-  removeMovieFromSaved,
+  saveMovie,
+  removeMovie,
 };
