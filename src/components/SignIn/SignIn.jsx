@@ -60,7 +60,7 @@ const SignIn = ({ onSignIn, tipText }) => {
         id='signin-password'
         className={`form__input ${errors?.password && 'form__input_invalid'}`}
         name='password'
-        type='text'
+        type='password'
         required
         {...register('password', {
           required: requiredErrorMessage,

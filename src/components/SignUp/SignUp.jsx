@@ -94,7 +94,7 @@ const SignUp = ({ onSignUp, tipText }) => {
           errors?.password ? 'form__input_invalid' : ''
         }`}
         name='password'
-        type='text'
+        type='password'
         required
         {...register('password', {
           required: requiredErrorMessage,
