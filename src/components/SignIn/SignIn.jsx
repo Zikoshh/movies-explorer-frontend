@@ -10,7 +10,7 @@ import {
   defaultErrorMessage,
 } from '../../constants/auth';
 
-const SignIn = ({ onSignIn, tipText }) => {
+const SignIn = ({ onSignIn, tipText, formToBeDisabled }) => {
   const submitButtonRef = useRef();
   const {
     register,
@@ -79,6 +79,7 @@ const SignIn = ({ onSignIn, tipText }) => {
           ref={submitButtonRef}
           className='form__submit-btn'
           type='submit'
+          disabled={formToBeDisabled ? true : false}
         >
           Войти
         </button>

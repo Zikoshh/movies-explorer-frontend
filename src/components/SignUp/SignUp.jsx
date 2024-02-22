@@ -14,7 +14,7 @@ import {
   defaultErrorMessage,
 } from '../../constants/auth';
 
-const SignUp = ({ onSignUp, tipText }) => {
+const SignUp = ({ onSignUp, tipText, formToBeDisabled }) => {
   const submitButtonRef = useRef();
   const {
     register,
@@ -117,6 +117,7 @@ const SignUp = ({ onSignUp, tipText }) => {
           ref={submitButtonRef}
           className='form__submit-btn'
           type='submit'
+          disabled={formToBeDisabled ? true : false}
         >
           Зарегистрироваться
         </button>

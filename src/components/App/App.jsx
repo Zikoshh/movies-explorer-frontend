@@ -15,14 +15,17 @@ import ProtectedRoute from '../ProtectedRoute/index';
 import * as MoviesApi from '../../utils/MoviesApi';
 import * as MainApi from '../../utils/MainApi';
 import movieFilter from '../../utils/movieFilter';
+import { succesTipMessage } from '../../constants/profile';
 
 const App = () => {
   const userId = localStorage.getItem('userId');
   const [isLoggedIn, setIsLoggedIn] = useState(userId ? true : false);
+  const [formToBeDisabled, setFormToBeDisabled] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
   const [tipTextSignIn, setTipTextSignIn] = useState('');
   const [tipTextSignUp, setTipTextSignUp] = useState('');
-  const [tipTextProfile, setTipTextProfile] = useState('');
+  const [errorTipTextProfile, setErrorTipTextProfile] = useState('');
+  const [succesTipTextProfile, setSuccesTipTextProfile] = useState('');
   const [savedMovies, setSavedMovies] = useState(
     JSON.parse(localStorage.getItem('savedMovies')) || []
   );
@@ -74,7 +77,8 @@ const App = () => {
         setCurrentUser({});
         setTipTextSignIn('');
         setTipTextSignUp('');
-        setTipTextProfile('');
+        setErrorTipTextProfile('');
+        setSuccesTipTextProfile('');
         setSavedMovies([]);
         setFilteredMovies([]);
         navigate('/');
@@ -87,6 +91,7 @@ const App = () => {
 
   /*Логика Авторизации*/
   const handleSignIn = (credentials) => {
+    setFormToBeDisabled(true);
     MainApi.signIn(credentials)
       .then((userData) => {
         localStorage.setItem('userId', userData._id);
@@ -97,11 +102,15 @@ const App = () => {
       .catch(({ message }) => {
         setTipTextSignIn(message);
         setIsLoggedIn(false);
+      })
+      .finally(() => {
+        setFormToBeDisabled(false);
       });
   };
 
   /*Логика Регистрации*/
   const handleSignUp = (credentials) => {
+    setFormToBeDisabled(true);
     MainApi.signUp(credentials)
       .then((userData) => {
         localStorage.setItem('userId', userData._id);
@@ -112,17 +121,25 @@ const App = () => {
       .catch(({ message }) => {
         setTipTextSignUp(message);
         setIsLoggedIn(false);
+      })
+      .finally(() => {
+        setFormToBeDisabled(false);
       });
   };
 
   /*Логика редактирования профиля*/
   const handleEditProfile = (userInfo) => {
+    setFormToBeDisabled(true);
     MainApi.updateUserInfo(userInfo)
       .then((userData) => {
         setCurrentUser(userData);
+        setSuccesTipTextProfile(succesTipMessage);
       })
       .catch(({ message }) => {
-        setTipTextProfile(message);
+        setErrorTipTextProfile(message);
+      })
+      .finally(() => {
+        setFormToBeDisabled(false);
       });
   };
 
@@ -254,6 +271,7 @@ const App = () => {
                 handleSaveMovie={handleSaveMovie}
                 handleRemoveMovie={handleRemoveMovie}
                 handleSubmit={handleMoviesSubmit}
+                formToBeDisabled={formToBeDisabled}
                 filteredMovies={filteredMovies}
                 component={Movies}
               />
@@ -267,6 +285,7 @@ const App = () => {
                 handleSaveMovie={handleSaveMovie}
                 handleRemoveMovie={handleRemoveMovie}
                 handleSubmit={handleSavedMoviesSubmit}
+                formToBeDisabled={formToBeDisabled}
                 savedMovies={savedMovies}
                 component={SavedMovies}
               />
@@ -279,18 +298,36 @@ const App = () => {
                 isLoggedIn={isLoggedIn}
                 onEditProfile={handleEditProfile}
                 onSignOut={handleSignOut}
-                tipText={tipTextProfile}
+                errorTipText={errorTipTextProfile}
+                succesTipText={succesTipTextProfile}
+                formToBeDisabled={formToBeDisabled}
                 component={Profile}
               />
             }
           />
           <Route
             path='/signin'
-            element={<ProtectedRoute isLoggedIn={!isLoggedIn} onSignIn={handleSignIn} tipText={tipTextSignIn} component={SignIn} />}
+            element={
+              <ProtectedRoute
+                isLoggedIn={!isLoggedIn}
+                onSignIn={handleSignIn}
+                tipText={tipTextSignIn}
+                formToBeDisabled={formToBeDisabled}
+                component={SignIn}
+              />
+            }
           />
           <Route
             path='/signup'
-            element={<ProtectedRoute isLoggedIn={!isLoggedIn} onSignUp={handleSignUp} tipText={tipTextSignUp} component={SignUp} />}
+            element={
+              <ProtectedRoute
+                isLoggedIn={!isLoggedIn}
+                onSignUp={handleSignUp}
+                tipText={tipTextSignUp}
+                formToBeDisabled={formToBeDisabled}
+                component={SignUp}
+              />
+            }
           />
           <Route path='*' element={<NotFound />} />
         </Routes>

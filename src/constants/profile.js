@@ -1,3 +1,5 @@
 const fieldMustBeDifferentErrorMessage =
   'Вы должны изменить изначальное значение';
-export { fieldMustBeDifferentErrorMessage };
+const succesTipMessage = 'Успешно обновлено';
+
+export { fieldMustBeDifferentErrorMessage, succesTipMessage };

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import './SearchForm.css';
 import { useLocation } from 'react-router-dom';
 
-const SearchForm = ({ onSubmit }) => {
+const SearchForm = ({ onSubmit, formToBeDisabled }) => {
   const [query, setQuery] = useState('');
   const checkboxRef = useRef();
   const location = useLocation();
@@ -57,7 +57,11 @@ const SearchForm = ({ onSubmit }) => {
           placeholder='Фильм'
           required
         />
-        <button className='search-form__submit-btn' type='submit' />
+        <button
+          className='search-form__submit-btn'
+          type='submit'
+          disabled={formToBeDisabled ? true : false}
+        />
       </div>
       <label className='search-form__label'>
         <input

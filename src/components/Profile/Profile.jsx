@@ -16,7 +16,13 @@ import {
 } from '../../constants/auth';
 import { fieldMustBeDifferentErrorMessage } from '../../constants/profile';
 
-const Profile = ({ onEditProfile, onSignOut, tipText }) => {
+const Profile = ({
+  onEditProfile,
+  onSignOut,
+  errorTipText,
+  succesTipText,
+  formToBeDisabled,
+}) => {
   const currentUser = useContext(CurrentUserContext);
 
   const {
@@ -147,11 +153,18 @@ const Profile = ({ onEditProfile, onSignOut, tipText }) => {
         </p>
         {isEditButtonClicked ? (
           <div className='profile__container'>
-            <p className='profile__tip'>{tipText}</p>
+            <p
+              className={`profile__tip ${
+                succesTipText ? 'profile__tip_succes' : 'profile__tip_error'
+              }`}
+            >
+              {succesTipText ? succesTipText : errorTipText}
+            </p>
             <button
               ref={submitButtonRef}
               className='profile__submit-btn'
               type='submit'
+              disabled={formToBeDisabled ? true : false}
             >
               Сохранить
             </button>
