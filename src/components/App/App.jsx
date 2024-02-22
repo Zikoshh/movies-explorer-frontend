@@ -286,11 +286,11 @@ const App = () => {
           />
           <Route
             path='/signin'
-            element={<SignIn onSignIn={handleSignIn} tipText={tipTextSignIn} />}
+            element={<ProtectedRoute isLoggedIn={!isLoggedIn} onSignIn={handleSignIn} tipText={tipTextSignIn} component={SignIn} />}
           />
           <Route
             path='/signup'
-            element={<SignUp onSignUp={handleSignUp} tipText={tipTextSignUp} />}
+            element={<ProtectedRoute isLoggedIn={!isLoggedIn} onSignUp={handleSignUp} tipText={tipTextSignUp} component={SignUp} />}
           />
           <Route path='*' element={<NotFound />} />
         </Routes>
