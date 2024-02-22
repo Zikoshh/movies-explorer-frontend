@@ -3,6 +3,12 @@ import { useForm } from 'react-hook-form';
 import '../Form.css';
 import { useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
+import {
+  requiredErrorMessage,
+  emailValidationErrorMessage,
+  passwordValidationErrorMessage,
+  defaultErrorMessage,
+} from '../../constants/auth';
 
 const SignIn = ({ onSignIn, tipText }) => {
   const submitButtonRef = useRef();
@@ -37,16 +43,15 @@ const SignIn = ({ onSignIn, tipText }) => {
         type='text'
         required
         {...register('email', {
-          required: 'Поле обязательно к заполнению',
+          required: requiredErrorMessage,
           pattern: {
             value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-            message:
-              'Ваш email невалидный. Пример валидного email: email@gmail.com',
+            message: emailValidationErrorMessage,
           },
         })}
       />
       <p className={`form__error ${errors?.email && 'form__error_active'}`}>
-        {errors?.email && (errors?.email?.message || 'Ошибка')}
+        {errors?.email && (errors?.email?.message || defaultErrorMessage)}
       </p>
       <label className='form__label' htmlFor='signin-password'>
         Пароль
@@ -58,16 +63,15 @@ const SignIn = ({ onSignIn, tipText }) => {
         type='text'
         required
         {...register('password', {
-          required: 'Поле обязательно к заполнению',
+          required: requiredErrorMessage,
           pattern: {
             value: /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/,
-            message:
-              'Ваш пароль должен содержать минимум 8 символов, символы верхнего и нижнего регистров, а так же цифры.',
+            message: passwordValidationErrorMessage,
           },
         })}
       />
       <p className={`form__error ${errors?.password && 'form__error_active'}`}>
-        {errors?.password && (errors?.password?.message || 'Ошибка')}
+        {errors?.password && (errors?.password?.message || defaultErrorMessage)}
       </p>
       <div className='form__container form__container_sign-in'>
         <p className='form__tip'>{tipText}</p>

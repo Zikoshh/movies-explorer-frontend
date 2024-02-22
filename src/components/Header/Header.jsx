@@ -1,13 +1,14 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './Header.css';
+import getWindowSize from '../../utils/windowSize';
+import { padWidth } from '../../constants/width';
 
 const Header = ({ isLoggedIn }) => {
   const [isNavPopupOpen, setIsNavPopupOpen] = useState(false);
   const [isTryingToAuth, setIsTryingToAuth] = useState(false);
   const [windowSize, setWindowSize] = useState(getWindowSize());
   const location = useLocation();
-
 
   useEffect(() => {
     if (location.pathname === '/signin' || location.pathname === '/signup') {
@@ -51,7 +52,7 @@ const Header = ({ isLoggedIn }) => {
       {isTryingToAuth ? (
         ''
       ) : isLoggedIn ? (
-        windowSize.width > 768 ? (
+        windowSize.width > padWidth ? (
           <div>
             <NavLink
               to='/movies'
@@ -88,7 +89,7 @@ const Header = ({ isLoggedIn }) => {
       {isTryingToAuth ? (
         ''
       ) : isLoggedIn ? (
-        windowSize.width > 768 ? (
+        windowSize.width > padWidth ? (
           <NavLink
             to='/profile'
             className={({ isActive }) =>
@@ -160,10 +161,6 @@ const Header = ({ isLoggedIn }) => {
       </div>
     </div>
   );
-};
-
-const getWindowSize = () => {
-  return { width: window.innerWidth, height: window.innerHeight };
 };
 
 export default Header;

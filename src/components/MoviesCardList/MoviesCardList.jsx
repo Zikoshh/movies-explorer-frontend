@@ -1,12 +1,18 @@
 import './MoviesCardList.css';
 import MoviesCard from '../MoviesCard/index';
 import { useState, useEffect } from 'react';
+import getWindowSize from '../../utils/windowSize';
+import {
+  moviesCountDesktop,
+  moviesCountPad,
+  moviesCountMobile,
+  additionalMoviesDesktop,
+  additionalMoviesPad,
+  additionalMoviesMobile,
+} from '../../constants/moviesCount';
+import { padWidth, mobileWidth } from '../../constants/width';
 
-const MoviesCardList = ({
-  handleSaveMovie,
-  handleRemoveMovie,
-  movies,
-}) => {
+const MoviesCardList = ({ handleSaveMovie, handleRemoveMovie, movies }) => {
   const [moviesDisplay, setMoviesDisplay] = useState([]);
   const [moviesCount, setMoviesCount] = useState('');
   const [numberOfAdditionalMovies, setNumberOfAdditionalMovies] = useState('');
@@ -26,19 +32,19 @@ const MoviesCardList = ({
       }, 200);
     };
 
-    if (windowSize.width > 768) {
-      setMoviesCount(12);
-      setNumberOfAdditionalMovies(3);
+    if (windowSize.width > padWidth) {
+      setMoviesCount(moviesCountDesktop);
+      setNumberOfAdditionalMovies(additionalMoviesDesktop);
     }
 
-    if (windowSize.width <= 768) {
-      setMoviesCount(8);
-      setNumberOfAdditionalMovies(2);
+    if (windowSize.width <= padWidth) {
+      setMoviesCount(moviesCountPad);
+      setNumberOfAdditionalMovies(additionalMoviesPad);
     }
 
-    if (windowSize.width <= 480) {
-      setMoviesCount(5);
-      setNumberOfAdditionalMovies(2);
+    if (windowSize.width <= mobileWidth) {
+      setMoviesCount(moviesCountMobile);
+      setNumberOfAdditionalMovies(additionalMoviesMobile);
     }
 
     window.addEventListener('resize', handleWindowResize);
@@ -85,10 +91,6 @@ const MoviesCardList = ({
       </button>
     </section>
   );
-};
-
-const getWindowSize = () => {
-  return { width: window.innerWidth, height: window.innerHeight };
 };
 
 export default MoviesCardList;

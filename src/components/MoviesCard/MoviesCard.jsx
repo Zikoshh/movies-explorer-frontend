@@ -1,6 +1,7 @@
 import './MoviesCard.css';
 import { useRef } from 'react';
 import { useLocation } from 'react-router-dom';
+import { hourInMinutes } from '../../constants/time';
 
 const MoviesCard = ({ handleSaveMovie, handleRemoveMovie, movie }) => {
   const saveButton = useRef();
@@ -24,8 +25,8 @@ const MoviesCard = ({ handleSaveMovie, handleRemoveMovie, movie }) => {
   };
 
   const getMovieDuration = (totalMinutes) => {
-    const hours = Math.floor(totalMinutes / 60);
-    const minutes = totalMinutes % 60;
+    const hours = Math.floor(totalMinutes / hourInMinutes);
+    const minutes = totalMinutes % hourInMinutes;
     return `${hours}ч ${minutes}м`;
   };
 
@@ -61,9 +62,9 @@ const MoviesCard = ({ handleSaveMovie, handleRemoveMovie, movie }) => {
       <div className='card__info'>
         <h4 className='card__title'>{movie.nameRU}</h4>
         <span className='card__duration'>
-          {movie.duration < 60
+          {movie.duration < hourInMinutes
             ? `${movie.duration}м`
-            : movie.duration === 60
+            : movie.duration === hourInMinutes
             ? '1ч'
             : getMovieDuration(movie.duration)}
         </span>

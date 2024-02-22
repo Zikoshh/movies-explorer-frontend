@@ -5,6 +5,16 @@ import './Profile.css';
 import { useContext, useEffect, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import CurrentUserContext from '../CurrentUserContext';
+import {
+  requiredErrorMessage,
+  minNameLength,
+  maxNameLength,
+  minNameLengthErrorMessage,
+  maxNameLengthErrorMessage,
+  emailValidationErrorMessage,
+  defaultErrorMessage,
+} from '../../constants/auth';
+import { fieldMustBeDifferentErrorMessage } from '../../constants/profile';
 
 const Profile = ({ onEditProfile, onSignOut, tipText }) => {
   const currentUser = useContext(CurrentUserContext);
@@ -79,16 +89,19 @@ const Profile = ({ onEditProfile, onSignOut, tipText }) => {
             type='text'
             disabled
             {...register('name', {
-              required: 'Поле обязательно к заполнению',
-              minLength: { value: 2, message: 'Минимальная длина для имени 2' },
+              required: requiredErrorMessage,
+              minLength: {
+                value: minNameLength,
+                message: minNameLengthErrorMessage,
+              },
               maxLength: {
-                value: 30,
-                message: 'Максимальная длина для имени 30',
+                value: maxNameLength,
+                message: maxNameLengthErrorMessage,
               },
               validate: (value, formValues) =>
                 value !== currentUser.name ||
                 formValues.email !== currentUser.email ||
-                'Вы должны изменить изначальное значение',
+                fieldMustBeDifferentErrorMessage,
             })}
           />
         </label>
@@ -97,7 +110,7 @@ const Profile = ({ onEditProfile, onSignOut, tipText }) => {
             errors?.name ? 'profile__error_active' : ''
           }`}
         >
-          {errors?.name && (errors?.name?.message || 'Ошибка')}
+          {errors?.name && (errors?.name?.message || defaultErrorMessage)}
         </p>
         <label
           className={`profile__label ${
@@ -113,16 +126,15 @@ const Profile = ({ onEditProfile, onSignOut, tipText }) => {
             type='text'
             disabled
             {...register('email', {
-              required: 'Поле обязательно к заполнению',
+              required: requiredErrorMessage,
               pattern: {
                 value: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/,
-                message:
-                  'Ваш email невалидный. Пример валидного email: email@gmail.com',
+                message: emailValidationErrorMessage,
               },
               validate: (value, formValues) =>
                 value !== currentUser.email ||
                 formValues.name !== currentUser.name ||
-                'Вы должны изменить изначальное значение',
+                fieldMustBeDifferentErrorMessage,
             })}
           />
         </label>
@@ -131,7 +143,7 @@ const Profile = ({ onEditProfile, onSignOut, tipText }) => {
             errors?.email ? 'profile__error_active' : ''
           }`}
         >
-          {errors?.email && (errors?.email?.message || 'Ошибка')}
+          {errors?.email && (errors?.email?.message || defaultErrorMessage)}
         </p>
         {isEditButtonClicked ? (
           <div className='profile__container'>
