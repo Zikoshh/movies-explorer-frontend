@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import './SearchForm.css';
 import { useLocation } from 'react-router-dom';
 
-const SearchForm = ({ onSubmit, formToBeDisabled }) => {
+const SearchForm = ({ onSubmit, handleCheckbox, formToBeDisabled }) => {
   const [query, setQuery] = useState('');
   const checkboxRef = useRef();
   const location = useLocation();
@@ -10,14 +10,14 @@ const SearchForm = ({ onSubmit, formToBeDisabled }) => {
   useEffect(() => {
     if (location.pathname === '/movies') {
       const queryLs = localStorage.getItem('query');
-      const checkboxState = localStorage.getItem('checkboxState');
+      const checkboxState = JSON.parse(localStorage.getItem('checkboxState'));
 
       if (queryLs) {
         setQuery(queryLs);
       }
 
       if (checkboxState) {
-        if (checkboxState === 'true') {
+        if (checkboxState === true) {
           checkboxRef.current.checked = true;
         } else {
           checkboxRef.current.checked = false;
@@ -26,11 +26,12 @@ const SearchForm = ({ onSubmit, formToBeDisabled }) => {
     }
   }, [location]);
 
-  const handleCheckbox = (e) => {
+  const onCheckboxChanged = (e) => {
     if (location.pathname === '/movies') {
-      localStorage.setItem('checkboxState', e.target.checked);
+      localStorage.setItem('checkboxState', JSON.stringify(e.target.checked));
     }
     checkboxRef.current.checked = e.target.checked;
+    handleCheckbox(e.target.checked, query);
   };
 
   const handleSearchInput = (e) => {
@@ -69,7 +70,7 @@ const SearchForm = ({ onSubmit, formToBeDisabled }) => {
           className='search-form__checkbox'
           name='checkbox'
           type='checkbox'
-          onChange={handleCheckbox}
+          onChange={onCheckboxChanged}
         />
         <span className='search-form__label-text'>Короткометражки</span>
       </label>

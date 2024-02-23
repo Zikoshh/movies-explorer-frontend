@@ -18,6 +18,7 @@ import movieFilter from '../../utils/movieFilter';
 import { succesTipMessage } from '../../constants/profile';
 
 const App = () => {
+  const checkboxState = JSON.parse(localStorage.getItem('checkboxState'));
   const userId = localStorage.getItem('userId');
   const [isLoggedIn, setIsLoggedIn] = useState(userId ? true : false);
   const [formToBeDisabled, setFormToBeDisabled] = useState(false);
@@ -32,6 +33,10 @@ const App = () => {
   const [filteredMovies, setFilteredMovies] = useState(
     JSON.parse(localStorage.getItem('filteredMovies')) || []
   );
+  const [shortMovies, setShortMovies] = useState(
+    JSON.parse(localStorage.getItem('shortMovies')) || []
+  );
+  const [shortSavedMovies, setShortSavedMovies] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -144,26 +149,40 @@ const App = () => {
   };
 
   /*Логика поиска фильмов на странице /movies*/
-  const handleMoviesSubmit = (query, checkboxState) => {
+  const handleMoviesSubmit = (query) => {
     const allMovies = JSON.parse(localStorage.getItem('allMovies'));
 
-    const filteredMovies = movieFilter(query, checkboxState, allMovies);
+    const filteredMovies = movieFilter(query, false, allMovies);
+    const shortMovies = movieFilter(query, true, filteredMovies);
 
-    setFilteredMovies(filteredMovies);
+    localStorage.setItem('shortMovies', JSON.stringify(shortMovies));
     localStorage.setItem('filteredMovies', JSON.stringify(filteredMovies));
+    setFilteredMovies(filteredMovies);
+    setShortMovies(shortMovies);
   };
 
   /*Логика поиска фильмов на странице /saved-movies*/
   const handleSavedMoviesSubmit = (query, checkboxState) => {
     const savedMoviesLs = JSON.parse(localStorage.getItem('savedMovies'));
 
-    const filteredSavedMovies = movieFilter(
-      query,
-      checkboxState,
-      savedMoviesLs
-    );
+    if (checkboxState === true) {
+      const filteredSavedMovies = movieFilter(query, false, savedMoviesLs);
+      const filteredShortSavedMovies = movieFilter(query, true, savedMoviesLs);
 
-    setSavedMovies(filteredSavedMovies);
+      localStorage.setItem(
+        'filteredSavedMovies',
+        JSON.stringify(filteredSavedMovies)
+      );
+      setSavedMovies(filteredShortSavedMovies);
+    } else {
+      const filteredSavedMovies = movieFilter(query, false, savedMoviesLs);
+
+      localStorage.setItem(
+        'filteredSavedMovies',
+        JSON.stringify(filteredSavedMovies)
+      );
+      setSavedMovies(filteredSavedMovies);
+    }
   };
 
   /*Логика добавления фильма в сохраненные*/
@@ -223,6 +242,9 @@ const App = () => {
     MainApi.removeMovie(movieId)
       .then((removedMovie) => {
         const savedMoviesLs = JSON.parse(localStorage.getItem('savedMovies'));
+        const filteredSavedMovies = JSON.parse(
+          localStorage.getItem('filteredSavedMovies')
+        );
         const allMovies = JSON.parse(localStorage.getItem('allMovies'));
 
         const newSavedMovies = savedMoviesLs.filter((savedMovieLs) => {
@@ -243,13 +265,23 @@ const App = () => {
           return filteredMovie;
         });
 
+        if (filteredSavedMovies) {
+          const newFilteredSavedMovies = filteredSavedMovies.filter(
+            (filteredSavedMovie) => {
+              return filteredSavedMovie.id !== removedMovie.id;
+            }
+          );
+
+          setSavedMovies(newFilteredSavedMovies);
+        } else {
+          setSavedMovies(newSavedMovies);
+        }
         localStorage.setItem(
           'filteredMovies',
           JSON.stringify(newFilteredMovies)
         );
         localStorage.setItem('allMovies', JSON.stringify(newAllMovies));
         localStorage.setItem('savedMovies', JSON.stringify(newSavedMovies));
-        setSavedMovies(newSavedMovies);
         setFilteredMovies(newFilteredMovies);
       })
       .catch(({ message }) => {
@@ -257,8 +289,44 @@ const App = () => {
       });
   };
 
+  const handleMoviesCheckbox = (checkboxState) => {
+    const filteredMoviesLs = JSON.parse(localStorage.getItem('filteredMovies'));
+
+    if (filteredMoviesLs) {
+      if (checkboxState === true) {
+        console.log('true da');
+        const shortMoviesLs = JSON.parse(localStorage.getItem('shortMovies'));
+        setShortMovies(shortMoviesLs);
+      } else {
+        console.log('false нет');
+        setFilteredMovies(filteredMoviesLs);
+      }
+    }
+  };
+
+  const handleSavedMoviesCheckbox = (checkboxState, query) => {
+    const filteredSavedMovies = JSON.parse(
+      localStorage.getItem('filteredSavedMovies')
+    );
+
+    if (filteredSavedMovies) {
+      if (checkboxState === true) {
+        const filteredShortSavedMovies = movieFilter(
+          query,
+          checkboxState,
+          filteredSavedMovies
+        );
+
+        setSavedMovies(filteredShortSavedMovies);
+      } else {
+        setSavedMovies(filteredSavedMovies);
+      }
+    }
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
+      {console.log(Boolean(checkboxState))}
       <div className='page'>
         <Header isLoggedIn={isLoggedIn} />
         <Routes>
@@ -271,8 +339,11 @@ const App = () => {
                 handleSaveMovie={handleSaveMovie}
                 handleRemoveMovie={handleRemoveMovie}
                 handleSubmit={handleMoviesSubmit}
+                handleCheckbox={handleMoviesCheckbox}
                 formToBeDisabled={formToBeDisabled}
-                filteredMovies={filteredMovies}
+                filteredMovies={
+                  checkboxState === true ? shortMovies : filteredMovies
+                }
                 component={Movies}
               />
             }
@@ -285,6 +356,7 @@ const App = () => {
                 handleSaveMovie={handleSaveMovie}
                 handleRemoveMovie={handleRemoveMovie}
                 handleSubmit={handleSavedMoviesSubmit}
+                handleCheckbox={handleSavedMoviesCheckbox}
                 formToBeDisabled={formToBeDisabled}
                 savedMovies={savedMovies}
                 component={SavedMovies}

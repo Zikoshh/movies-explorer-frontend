@@ -6,12 +6,17 @@ const SavedMovies = ({
   handleSaveMovie,
   handleRemoveMovie,
   handleSubmit,
+  handleCheckbox,
   formToBeDisabled,
   savedMovies,
 }) => {
   return (
     <section className='saved-movies'>
-      <SearchForm onSubmit={handleSubmit} formToBeDisabled={formToBeDisabled} />
+      <SearchForm
+        onSubmit={handleSubmit}
+        handleCheckbox={handleCheckbox}
+        formToBeDisabled={formToBeDisabled}
+      />
       <MoviesCardList
         handleSaveMovie={handleSaveMovie}
         handleRemoveMovie={handleRemoveMovie}
