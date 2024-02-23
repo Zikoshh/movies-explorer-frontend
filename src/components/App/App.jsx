@@ -36,7 +36,6 @@ const App = () => {
   const [shortMovies, setShortMovies] = useState(
     JSON.parse(localStorage.getItem('shortMovies')) || []
   );
-  const [shortSavedMovies, setShortSavedMovies] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
