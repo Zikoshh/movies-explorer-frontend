@@ -164,7 +164,7 @@ const Profile = ({
               ref={submitButtonRef}
               className='profile__submit-btn'
               type='submit'
-              disabled={formToBeDisabled ? true : false}
+              disabled={!formToBeDisabled ? true : false}
             >
               Сохранить
             </button>
