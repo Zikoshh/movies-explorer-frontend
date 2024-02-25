@@ -1,10 +1,12 @@
 import './MoviesCard.css';
-import image from '../../assets/images/movie-image.jpg';
 import { useRef } from 'react';
+import { useLocation } from 'react-router-dom';
+import { hourInMinutes } from '../../constants/time';
 
-const MoviesCard = ({ isMovieSaved }) => {
+const MoviesCard = ({ handleSaveMovie, handleRemoveMovie, movie }) => {
   const saveButton = useRef();
-  const savedButton = useRef();
+  const removeButton = useRef();
+  const location = useLocation();
 
   const showSaveButton = () => {
     saveButton.current.classList.add('card__save-btn_visible');
@@ -15,28 +17,70 @@ const MoviesCard = ({ isMovieSaved }) => {
   };
 
   const showRemoveButton = () => {
-    savedButton.current.classList.add('card__saved-btn_remove');
+    removeButton.current.classList.add('card__saved-btn_remove');
   };
 
   const hideRemoveButton = () => {
-    savedButton.current.classList.remove('card__saved-btn_remove');
+    removeButton.current.classList.remove('card__saved-btn_remove');
+  };
+
+  const getMovieDuration = (totalMinutes) => {
+    const hours = Math.floor(totalMinutes / hourInMinutes);
+    const minutes = totalMinutes % hourInMinutes;
+    return `${hours}ч ${minutes}м`;
+  };
+
+  const onSaveBtnClick = () => {
+    handleSaveMovie(movie);
+  };
+
+  const onRemoveBtnClick = () => {
+    handleRemoveMovie(movie.id);
   };
 
   return (
     <article
       className='card'
-      onMouseEnter={isMovieSaved ? showRemoveButton : showSaveButton}
-      onMouseLeave={isMovieSaved ? hideRemoveButton : hideSaveButton}
+      onMouseEnter={
+        (location.pathname === '/saved-movies' ? true : movie.saved)
+          ? showRemoveButton
+          : showSaveButton
+      }
+      onMouseLeave={
+        (location.pathname === '/saved-movies' ? true : movie.saved)
+          ? hideRemoveButton
+          : hideSaveButton
+      }
     >
-      <img className='card__image' src={image} alt='test-img' />
+      <a href={movie.trailerLink} target='_blank' rel='noreferrer'>
+        <img
+          className='card__image'
+          src={`https://api.nomoreparties.co${movie.image.url}`}
+          alt={movie.nameRU}
+        />
+      </a>
       <div className='card__info'>
-        <h4 className='card__title'>Чивоооооооооо</h4>
-        <span className='card__duration'>56ч 99м</span>
+        <h4 className='card__title'>{movie.nameRU}</h4>
+        <span className='card__duration'>
+          {movie.duration < hourInMinutes
+            ? `${movie.duration}м`
+            : movie.duration === hourInMinutes
+            ? '1ч'
+            : getMovieDuration(movie.duration)}
+        </span>
       </div>
-      {isMovieSaved ? (
-        <button className='card__saved-btn' ref={savedButton}/>
+      {(location.pathname === '/saved-movies' ? true : movie.saved) ? (
+        <button
+          className='card__saved-btn'
+          ref={removeButton}
+          onClick={onRemoveBtnClick}
+        />
       ) : (
-        <button className='card__save-btn' ref={saveButton}>
+        <button
+          className='card__save-btn'
+          ref={saveButton}
+          onClick={onSaveBtnClick}
+        >
           Сохранить
         </button>
       )}

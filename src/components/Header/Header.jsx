@@ -1,6 +1,8 @@
 import { NavLink, useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import './Header.css';
+import getWindowSize from '../../utils/windowSize';
+import { padWidth } from '../../constants/width';
 
 const Header = ({ isLoggedIn }) => {
   const [isNavPopupOpen, setIsNavPopupOpen] = useState(false);
@@ -9,24 +11,29 @@ const Header = ({ isLoggedIn }) => {
   const location = useLocation();
 
   useEffect(() => {
+    if (location.pathname === '/signin' || location.pathname === '/signup') {
+      setIsTryingToAuth(true);
+    } else {
+      setIsTryingToAuth(false);
+    }
+  }, [location]);
+
+  useEffect(() => {
+    let debounce = '';
+
     const handleWindowResize = () => {
-      setWindowSize(getWindowSize());
+      clearTimeout(debounce);
+      debounce = setTimeout(() => {
+        setWindowSize(getWindowSize());
+      }, 200);
     };
 
     window.addEventListener('resize', handleWindowResize);
 
-    if (location.pathname === '/signin') {
-      setIsTryingToAuth(true);
-    }
-
-    if (location.pathname === '/signup') {
-      setIsTryingToAuth(true);
-    }
-
     return () => {
       window.removeEventListener('resize', handleWindowResize);
     };
-  }, [location]);
+  }, [windowSize.width]);
 
   const handleOpenNavPopup = () => {
     setIsNavPopupOpen(true);
@@ -45,7 +52,7 @@ const Header = ({ isLoggedIn }) => {
       {isTryingToAuth ? (
         ''
       ) : isLoggedIn ? (
-        windowSize.innerWidth > 768 ? (
+        windowSize.width > padWidth ? (
           <div>
             <NavLink
               to='/movies'
@@ -82,7 +89,7 @@ const Header = ({ isLoggedIn }) => {
       {isTryingToAuth ? (
         ''
       ) : isLoggedIn ? (
-        windowSize.innerWidth > 768 ? (
+        windowSize.width > padWidth ? (
           <NavLink
             to='/profile'
             className={({ isActive }) =>
@@ -154,11 +161,6 @@ const Header = ({ isLoggedIn }) => {
       </div>
     </div>
   );
-};
-
-const getWindowSize = () => {
-  const { innerWidth, innerHeight } = window;
-  return { innerWidth, innerHeight };
 };
 
 export default Header;

@@ -2,12 +2,26 @@ import './Movies.css';
 import SearchForm from '../SearchForm/index';
 import MoviesCardList from '../MoviesCardList/index';
 
-const Movies = () => {
+const Movies = ({
+  handleSaveMovie,
+  handleRemoveMovie,
+  handleSubmit,
+  handleCheckbox,
+  formToBeDisabled,
+  filteredMovies,
+}) => {
   return (
     <section className='movies'>
-      <SearchForm />
-      <MoviesCardList />
-      <button className='movies__btn' type='button'>Ещё</button>
+      <SearchForm
+        onSubmit={handleSubmit}
+        handleCheckbox={handleCheckbox}
+        formToBeDisabled={formToBeDisabled}
+      />
+      <MoviesCardList
+        handleSaveMovie={handleSaveMovie}
+        handleRemoveMovie={handleRemoveMovie}
+        movies={filteredMovies}
+      />
     </section>
   );
 };

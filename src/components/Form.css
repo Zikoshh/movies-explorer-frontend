@@ -35,19 +35,48 @@
   border-radius: 8px;
   color: white;
   box-sizing: border-box;
+  margin-bottom: 22px;
 }
 
 .form__input_invalid {
   color: #EE3465;
+  margin-bottom: 0;
 }
 
 .form__error {
+  display: none;
   font-size: 10px;
   font-weight: 400;
   line-height: normal;
   width: 100%;
   color: #EE3465;
   margin: 10px 0 0 0;
+}
+
+.form__error_active {
+  display: inline;
+}
+
+.form__container {
+  width: 100%;
+  text-align: center;
+  position: relative;
+  margin-top: 69px;
+}
+
+.form__container_sign-in {
+  margin-top: 179px;
+}
+
+.form__tip {
+  margin: 0;
+  color: #ee3465;
+  font-size: 11px;
+  font-weight: 400;
+  line-height: normal;
+  position: absolute;
+  bottom: 65px;
+  width: 100%;
 }
 
 .form__submit-btn {
@@ -59,13 +88,14 @@
   padding: 13px 0 15px 0;
   border: none;
   color: white;
-  margin-top: 69px;
   border-radius: 3px;
   cursor: pointer;
 }
 
-.form__submit-btn_sign-in {
-  margin-top: 179px;
+.form__submit-btn:disabled {
+  background-color:#F8F8F8;
+  color: #C2C2C2;
+  cursor: no-drop;
 }
 
 .form__submit-btn:hover {
@@ -108,11 +138,14 @@
 
   .form__submit-btn {
     padding: 15px 0 15px 0;
-    margin-top: 157px;
     font-size: 12px;
   }
 
-  .form__submit-btn_sign-in {
+  .form__container {
+    margin-top: 157px;
+  }
+
+  .form__container_sign-in {
     margin-top: 267px;
   }
 

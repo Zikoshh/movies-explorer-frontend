@@ -3,22 +3,20 @@ import './Footer.css';
 import { useEffect, useState } from 'react';
 
 const Footer = () => {
-  const [isToBeHidden, setIsToBeHidden] = useState(false);
+  const [isToBeHidden, setIsToBeHidden] = useState(true);
   const location = useLocation();
 
   useEffect(() => {
-    if (location.pathname === '/profile') {
-      return setIsToBeHidden(true);
+    if (
+      location.pathname === '/profile' ||
+      location.pathname === '/signin' ||
+      location.pathname === '/signup'
+    ) {
+      setIsToBeHidden(true);
+    } else {
+      setIsToBeHidden(false);
     }
-
-    if (location.pathname === '/signin') {
-      return setIsToBeHidden(true);
-    }
-
-    if (location.pathname === '/signup') {
-      return setIsToBeHidden(true);
-    }
-  }, [location])
+  }, [location]);
 
   return (
     <footer className={`footer ${isToBeHidden ? 'footer_hidden' : ''}`}>
@@ -28,10 +26,20 @@ const Footer = () => {
       <div className='footer__container'>
         <p className='footer__copyright'>© 2024</p>
         <div className='footer__links'>
-          <a className='footer__link' href='da'>
+          <a
+            className='footer__link'
+            href='https://practicum.yandex.ru/'
+            target='_blank'
+            rel='noreferrer'
+          >
             Яндекс.Практикум
           </a>
-          <a className='footer__link' href='da'>
+          <a
+            className='footer__link'
+            href='https://github.com/Zikoshh'
+            target='_blank'
+            rel='noreferrer'
+          >
             Github
           </a>
         </div>
